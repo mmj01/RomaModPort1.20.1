@@ -2,6 +2,7 @@ package Roma.item;
 
 import Roma.block.ModBlocks;
 import Roma.item.custom.FuelItem;
+import Roma.item.custom.ModPickaxeItem;
 import Roma.item.custom.ReachItem;
 import Roma.item.custom.chisel;
 import Roma.roma;
@@ -189,6 +190,25 @@ public class Moditems {
             () -> new PickaxeItem(ModToolTiers.LSTEEL,3,-3.1f,new Item.Properties()));
     public static final RegistryObject<Item> SUPERALLOYPICKAXE = ITEMS.register("superalloypickaxe",
             () -> new PickaxeItem(ModToolTiers.SUPERALLOY,3,-3.1f,new Item.Properties()));
+
+    public static final RegistryObject<Item> DENSEIRONPICKAXE = ITEMS.register("denseironpickaxe",
+            () -> new ModPickaxeItem(ModToolTiers.DENSEIRON,3,-3.1f,new Item.Properties()));
+    public static final RegistryObject<Item> DENSECOPPERPICKAXE = ITEMS.register("densecopperpickaxe",
+            () -> new ModPickaxeItem(ModToolTiers.DENSECOPPER,3,-3.1f,new Item.Properties()));
+    public static final RegistryObject<Item> DENSESTONEPICKAXE = ITEMS.register("densestonepickaxe",
+            () -> new ModPickaxeItem(ModToolTiers.DENSESTONE,3,-3.1f,new Item.Properties()));
+    public static final RegistryObject<Item> DENSEWOODPICKAXE = ITEMS.register("densewoodpickaxe",
+            () -> new ModPickaxeItem(ModToolTiers.DENSEWOOD,3,-3.1f,new Item.Properties()));
+    public static final RegistryObject<Item> DENSEBRASSPICKAXE = ITEMS.register("densebrasspickaxe",
+            () -> new ModPickaxeItem(ModToolTiers.DENSEBRASS,3,-3.1f,new Item.Properties()));
+    public static final RegistryObject<Item> DENSEBRONZEPICKAXE = ITEMS.register("densebronzepickaxe",
+            () -> new ModPickaxeItem(ModToolTiers.DENSEBRONZE,3,-3.1f,new Item.Properties()));
+    public static final RegistryObject<Item> DENSEHSTEELPICKAXE = ITEMS.register("densehsteelpickaxe",
+            () -> new ModPickaxeItem(ModToolTiers.DENSEHSTEEL,3,-3.1f,new Item.Properties()));
+    public static final RegistryObject<Item> DENSELSTEELPICKAXE = ITEMS.register("denselsteelpickaxe",
+            () -> new ModPickaxeItem(ModToolTiers.DENSELSTEEL,3,-3.1f,new Item.Properties()));
+    public static final RegistryObject<Item> DENSESUPERALLOYPICKAXE = ITEMS.register("densesuperalloypickaxe",
+            () -> new ModPickaxeItem(ModToolTiers.DENSESUPERALLOY,3,-3.1f,new Item.Properties()));
 
 
 

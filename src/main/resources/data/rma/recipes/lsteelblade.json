@@ -1,10 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "pattern": [
     "  X",
-    " X",
-    "X"
+    " X ",
+    "X  "
   ],
   "key": {
     "X": {
@@ -12,8 +11,7 @@
     }
   },
   "result": {
-    "item": "rma:lsteelblade",
-    "count": 1
-  },
-  "show_notification": false
+    "count": 1,
+    "item": "rma:lsteelblade"
+  }
 }

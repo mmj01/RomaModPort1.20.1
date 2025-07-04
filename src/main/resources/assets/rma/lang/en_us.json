@@ -127,6 +127,14 @@
   "item.rma.copperplate": "Copper Plate",
   "item.rma.bread": "Bread",
   "item.rma.rockbricks": "Stone Bricks",
-  "item.rma.treatedironingot": "Treated Iron Ingot"
-
+  "item.rma.treatedironingot": "Treated Iron Ingot",
+  "item.rma.densecopperpickaxe": "Dense Copper Pickaxe",
+  "item.rma.denseironpickaxe": "Dense Iron Pickaxe",
+  "item.rma.densewoodpickaxe": "Dense Wooden Pickaxe",
+  "item.rma.densestonepickaxe": "Dense Stone Pickaxe",
+  "item.rma.densebrasspickaxe": "Dense Brass Pickaxe",
+  "item.rma.densehsteelpickaxe": "Dense High Grade Steel Pickaxe",
+  "item.rma.denselsteelpickaxe": "Dense Low Grade Steel Pickaxe",
+  "item.rma.densebronzepickaxe": "Dense Bronze Pickaxe",
+  "item.rma.densesuperalloypickaxe": "Dense SuperAlloy Pickaxe"
 }

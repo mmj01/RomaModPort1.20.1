@@ -33,5 +33,29 @@ public class ModToolTiers {
             7,30000,14f,12,2,ModTags.Blocks.NEEDSSUPERALLOYTOOL,() -> Ingredient.of(Moditems.COPPERINGOT.get()));
 
 
+    public static final Tier DENSESTONE = new ForgeTier(
+            1,600,6f,3,2,ModTags.Blocks.NEEDSSTONETOOL,()-> Ingredient.of(ModBlocks.ROCK.get(),ModBlocks.LIMESTONE.get(),ModBlocks.BASALT.get()));
+    public static final Tier DENSEWOOD = new ForgeTier(
+            0,240,5f,2,2,ModTags.Blocks.NEEDSWOODENTOOL,()-> Ingredient.EMPTY);
+
+    public static final Tier DENSECOPPER = new ForgeTier(
+            2,800,7f,4,2,ModTags.Blocks.NEEDSCOPPERTOOL,()-> Ingredient.of(Moditems.COPPERINGOT.get()));
+    public static final Tier DENSEIRON = new ForgeTier(
+            3,1200,8f,5,2,ModTags.Blocks.NEEDSIRONTOOL,()-> Ingredient.of(Moditems.IRONINGOT.get()));
+
+    public static final Tier DENSEBRASS = new ForgeTier(
+            4,1800,9f,6,2,ModTags.Blocks.NEEDSBRASSTOOL,()-> Ingredient.of(Moditems.BRASSINGOT.get()));
+    public static final Tier DENSEBRONZE = new ForgeTier(
+            5,2400,10f,7,2,ModTags.Blocks.NEEDSBRONZETOOL,()-> Ingredient.of(Moditems.BRONZEINGOT.get()));
+
+    public static final Tier DENSELSTEEL = new ForgeTier(
+            6,3000,11f,8,2,ModTags.Blocks.NEEDSLSTEELTOOL,()-> Ingredient.of(Moditems.LSTEELINGOT.get()));
+    public static final Tier DENSEHSTEEL = new ForgeTier(
+            7,4000,13f,9,2,ModTags.Blocks.NEEDSHSTEELTOOL,() -> Ingredient.of(Moditems.HSTEELINGOT.get()));
+
+    public static final Tier DENSESUPERALLOY = new ForgeTier(
+            7,45000,16f,12,2,ModTags.Blocks.NEEDSSUPERALLOYTOOL,() -> Ingredient.of(Moditems.COPPERINGOT.get()));
+
+
 
 }
