@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:woodpickaxe"
+    },
+    "#": {
+      "item": "rma:woodblade"
+    }
+
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:densewoodpickaxe"
+  }
+}

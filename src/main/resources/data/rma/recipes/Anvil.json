@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    " X ",
+    "QQQ"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:ironplate"
+    },
+    "Q": {
+      "item": "rma:ironingot"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "minecraft:anvil"
+  }
+}
+

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:bronzepickaxe"
+    },
+    "#": {
+      "item": "rma:bronzeplate"
+    }
+
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:densebronzepickaxe"
+  }
+}

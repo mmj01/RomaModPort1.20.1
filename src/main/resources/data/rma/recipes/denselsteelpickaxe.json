@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:lsteelpickaxe"
+    },
+    "#": {
+      "item": "rma:lsteelplate"
+    }
+
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:denselsteelpickaxe"
+  }
+}

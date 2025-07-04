@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:stonepickaxe"
+    },
+    "#": {
+      "item": "rma:stoneblade"
+    }
+
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:densestonepickaxe"
+  }
+}

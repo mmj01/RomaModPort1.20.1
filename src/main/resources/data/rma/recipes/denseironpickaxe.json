@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:ironpickaxe"
+    },
+    "#": {
+      "item": "rma:ironplate"
+    }
+
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:denseironpickaxe"
+  }
+}
