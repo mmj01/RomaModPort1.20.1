@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "# #",
+    "   "
+  ],
+  "key": {
+    "#": {
+      "item": "rma:ironplate"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:ironboots"
+  }
+}

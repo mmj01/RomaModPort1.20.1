@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    " # ",
+    " # "
+  ],
+  "key": {
+    "X": {
+      "item": "rma:brassingot"
+    },
+    "#": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {"count": 1,
+    "item": "rma:brassshovel"
+  }
+}

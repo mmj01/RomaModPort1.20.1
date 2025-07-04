@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "rma:block/fourcrafttop",
+    "up": "rma:block/fourcrafttop",
+    "north": "rma:block/fourcraftside",
+    "south": "rma:block/fourcraftside",
+    "west": "rma:block/fourcraftside",
+    "east": "rma:block/fourcraftside"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "X X",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:cypresslog"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "minecraft:chest"
+  }
+}

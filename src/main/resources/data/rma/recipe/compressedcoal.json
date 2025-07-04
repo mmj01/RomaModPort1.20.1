@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:coal"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:compressedcoal"
+  }
+}

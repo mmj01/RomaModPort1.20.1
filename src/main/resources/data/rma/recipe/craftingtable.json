@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+    "XX"
+    ],
+  "key": {
+    "X": {
+      "item": "rma:cypressplanks"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "minecraft:crafting_table"
+  }
+}

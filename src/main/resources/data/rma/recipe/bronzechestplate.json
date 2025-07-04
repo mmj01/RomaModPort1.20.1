@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "###",
+    "X#X"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:bronzeingot"
+    },
+    "#": {
+      "item": "rma:bronzeplate"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:bronzechestplate"
+  }
+}

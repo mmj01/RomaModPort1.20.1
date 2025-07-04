@@ -1,0 +1,10 @@
+{
+	"pack": {
+		"description": "A custom dimension template datapack.",
+		"pack_format": 5,
+        "supported_formats": {
+            "min_inclusive": 1,
+            "max_inclusive": 999
+        }
+	}
+}

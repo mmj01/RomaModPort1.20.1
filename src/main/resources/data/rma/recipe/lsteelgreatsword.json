@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "rma:lsteelingot"
+    },
+    "R": {
+      "item": "rma:lsteelblade"
+    },
+    "#": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    " RR",
+    "RXR",
+    "#  "
+  ],
+
+  "result": {
+    "count": 1,
+    "item": "rma:lsteelgreatsword"
+
+  }
+}

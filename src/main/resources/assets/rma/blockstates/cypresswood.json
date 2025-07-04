@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "rma:block/cypressloghorizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "rma:block/cypresslog"
+    },
+    "axis=z": {
+      "model": "rma:block/cypressloghorizontal",
+      "x": 90
+    }
+  }
+}

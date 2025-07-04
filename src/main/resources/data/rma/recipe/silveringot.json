@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rma:rawsilver"
+  },
+  "result": {
+    "item": "rma:silveringot"
+  },
+  "cooking_time": 600
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rma:rawcopper"
+  },
+  "result": {
+    "item": "rma:copperingot"
+  },
+  "cooking_time": 200
+}

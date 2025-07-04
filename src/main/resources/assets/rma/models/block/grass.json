@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "rma:block/dirt",
+    "up": "rma:block/grasstop",
+    "north": "rma:block/grass",
+    "south": "rma:block/grass",
+    "west": "rma:block/grass",
+    "east": "rma:block/grass"
+  }
+}

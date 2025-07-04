@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "remove": [
+    "rma:marble",
+    "rma:alabaster",
+    "rma:granite"
+
+  ],
+  "values": ["#rma:stone"]
+}

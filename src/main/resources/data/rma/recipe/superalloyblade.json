@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  X",
+    " X ",
+    "X  "
+  ],
+  "key": {
+    "X": {
+      "item": "rma:superalloyingot"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:superalloyblade"
+  }
+}

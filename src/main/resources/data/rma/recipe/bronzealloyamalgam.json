@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "YXY",
+    "#Y#",
+    "YXY"
+  ],
+  "key": {
+    "Y": {
+      "item": "rma:alloymixer"
+    },
+    "X": {
+      "item": "rma:copperingot"
+    },
+    "#": {
+      "item": "rma:tiningot"
+    }
+  },
+  "result": {
+    "count": 3,
+    "item": "rma:bronzealloyamalgam"
+  }
+}

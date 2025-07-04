@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "# #",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:hsteelingot"
+    },
+    "#": {
+      "item": "rma:hsteelplate"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:hsteelleggings"
+  }
+}

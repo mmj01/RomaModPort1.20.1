@@ -1,0 +1,42 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "seeds",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:wheatseeds"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:block_state_property",
+            "block": "rma:wheatcrop",
+            "properties": { "age": "7" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "rma:wheat",
+      "rolls": 2,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:wheat"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "rma:wheatcrop",
+          "properties": { "age": "7" }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " RR",
+    "RXR",
+    "#  "
+  ],
+  "key": {
+    "X": {
+      "item": "rma:brassingot"
+    },
+    "R": {
+      "item": "rma:brassblade"
+    },
+    "#": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {"count": 1,
+    "item": "rma:brassgreatsword"
+  }
+}

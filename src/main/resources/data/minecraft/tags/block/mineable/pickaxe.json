@@ -1,0 +1,26 @@
+{
+
+  "values": [
+    "rma:marble",
+    "rma:granite",
+    "rma:alabaster",
+    "rma:limestone",
+    "rma:rock",
+    "rma:basalt",
+    "rma:ironore",
+    "rma:tinore",
+    "rma:goldore",
+    "rma:cobaltore",
+    "rma:nickelore",
+    "rma:platinumore",
+    "rma:chromiumore",
+    "rma:copperore",
+    "rma:silverore",
+    "rma:tinore",
+    "rma:zincore",
+    "rma:aluminumore",
+    "rma:coalore",
+    "rma:rockbricks"
+
+  ]
+}

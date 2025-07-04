@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rma:bronzealloyamalgam"
+  },
+  "result": {
+    "item": "rma:bronzeingot"
+  },
+  "cooking_time": 400
+}

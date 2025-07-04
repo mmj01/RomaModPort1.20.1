@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#X "
+  ],
+  "key": {
+    "X": {
+      "item": "rma:ironingot"
+    },
+    "#": {
+      "item": "rma:alloymixer"
+    }
+  },
+  "result": {"count": 1,
+    "item": "rma:treatedironingot"
+  }
+}

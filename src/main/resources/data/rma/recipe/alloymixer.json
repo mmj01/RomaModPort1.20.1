@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#X ",
+    "X# "
+  ],
+  "key": {
+    "X": {
+      "item": "rma:cobaltingot"
+    },
+    "#": {
+      "item": "rma:copperingot"
+    }
+  },
+  "result": {"count": 8,
+    "item": "rma:alloymixer"
+  }
+}
+

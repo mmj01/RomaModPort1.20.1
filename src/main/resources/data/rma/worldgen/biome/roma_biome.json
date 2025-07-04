@@ -1,0 +1,55 @@
+{
+  "temperature_modifier": "none",
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "downfall": 0.9,
+  "effects": {
+    "fog_color": 12638463,
+    "foliage_color": 5877296,
+    "grass_color": 8633197,
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2,
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000
+    },
+    "music": {
+      "max_delay": 24000,
+      "min_delay": 12000,
+      "replace_current_music": false,
+      "sound": "minecraft:music.game"
+    },
+    "sky_color": 7834239,
+    "water_color": 4159204,
+    "water_fog_color": 4159204
+  },
+  "features": [
+    [
+      "rma:iron_ore_placed",
+      "rma:copper_ore_placed",
+      "rma:zinc_ore_placed",
+      "rma:aluminum_ore_placed",
+      "rma:gold_ore_placed",
+      "rma:nickel_ore_placed",
+      "rma:cobalt_ore_placed",
+      "rma:platinum_ore_placed",
+      "rma:tin_ore_placed",
+      "rma:chromium_ore_placed",
+      "rma:silver_ore_placed",
+      "rma:coal_ore_placed"
+    ],
+    [],
+    [],
+    [],
+    ["rma:cypress_placed"]
+  ],
+  "has_precipitation": true,
+  "spawn_costs": {},
+  "spawners": {},
+  "temperature": 0.7
+}

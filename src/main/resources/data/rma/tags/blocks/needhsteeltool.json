@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "rma:platinumore",
+    "rma:chromiumore",
+    "rma:marble",
+    "#rma:needlsteeltool"
+  ]
+}

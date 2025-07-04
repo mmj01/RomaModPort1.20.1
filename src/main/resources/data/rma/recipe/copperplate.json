@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX ",
+    "XXX",
+    " XX"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:copperingot"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:copperplate"
+  }
+}

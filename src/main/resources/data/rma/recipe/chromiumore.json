@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rma:rawchromium"
+  },
+  "result": {
+    "item": "rma:chromiumingot"
+  },
+  "cooking_time": 17280
+}

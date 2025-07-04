@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "rma:nickelore",
+    "rma:granite",
+    "#rma:needsstonetool",
+    "#rma:needbronzetool"
+  ]
+}

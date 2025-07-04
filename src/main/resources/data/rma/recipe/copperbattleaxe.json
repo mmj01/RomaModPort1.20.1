@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRX",
+    " #R",
+    "# R"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:copperingot"
+    },
+    "R": {
+      "item": "rma:copperaxe"
+    },
+    "#": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:copperbattleaxe"
+  }
+}

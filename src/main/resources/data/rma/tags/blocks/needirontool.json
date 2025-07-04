@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "rma:granite",
+    "rma:zincore",
+    "rma:tinore",
+    "rma:cobaltore",
+    "#rma:needcoppertool"
+
+  ]
+}

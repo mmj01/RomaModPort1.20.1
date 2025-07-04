@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " RR",
+    "RXR",
+    "#  "
+  ],
+  "key": {
+    "X": {
+      "item": "rma:cypressplanks"
+    },
+    "R": {
+      "item": "rma:woodblade"
+    },
+    "#": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "rma:woodgreatsword"
+  }
+}

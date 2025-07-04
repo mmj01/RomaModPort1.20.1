@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "rma:block/cypresslogtop",
+    "side": "rma:block/cypresslog"
+  }
+}
