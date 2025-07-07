@@ -1,36 +1,40 @@
 package Roma.entity.custom;
 
 import Roma.item.Moditems;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.*;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
 
 
-public class PersianAssassin extends Monster {
+public class PersianAssassinlvltwo extends Monster {
 
 
 
 
-    public PersianAssassin(EntityType<? extends Monster> type, Level level) {
+    public PersianAssassinlvltwo(EntityType<? extends Monster> type, Level level) {
         super(type, level);
-        this.xpReward = 10;
+        this.invulnerableTime =0;
+        this.xpReward = 40;
         this.setPersistenceRequired();
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
-        this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Moditems.COPPERCHESTPLATE.get()));
-        this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Moditems.COPPERLEGGINGS.get()));
-        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Moditems.COPPERHELMET.get()));
-        this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Moditems.COPPERBOOTS.get()));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
+        this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Moditems.IRONCHESTPLATE.get()));
+        this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Moditems.IRONLEGGINGS.get()));
+        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Moditems.IRONHELMET.get()));
+        this.setItemSlot(EquipmentSlot.FEET, new ItemStack(Moditems.IRONBOOTS.get()));
         this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
         this.setDropChance(EquipmentSlot.CHEST, 0.0F);
         this.setDropChance(EquipmentSlot.LEGS, 0.0F);
@@ -43,28 +47,40 @@ public class PersianAssassin extends Monster {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.ARMOR, 6.0D)
-                .add(Attributes.ATTACK_SPEED, 10.0D)
-                .add(Attributes.MAX_HEALTH, 30.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.7D)
-                .add(Attributes.ATTACK_DAMAGE, 8.0D)
+                .add(Attributes.ARMOR, 12.0D)
+                .add(Attributes.ATTACK_SPEED, 15.0D)
+                .add(Attributes.MAX_HEALTH, 80.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.8D)
+                .add(Attributes.ATTACK_DAMAGE, 16.0D)
                 .add(Attributes.FOLLOW_RANGE, 40.0D)
                 .add(Attributes.ATTACK_KNOCKBACK, 1.0D);
     }
 
     @Override
     protected void dropCustomDeathLoot(DamageSource pSource, int pLooting, boolean pRecentlyHit) {
-        if (this.random.nextFloat() < 0.05F ) {
+        if (this.random.nextFloat() < 0.1F ) {
             this.spawnAtLocation(Moditems.RAWIRON.get());
         }
-        if (this.random.nextFloat() < 0.05F ) {
+        if (this.random.nextFloat() < 0.1F ) {
             this.spawnAtLocation(Moditems.RAWCOPPER.get());
         }
-        if (this.random.nextFloat() < 0.05F ) {
+        if (this.random.nextFloat() < 0.1F ) {
             this.spawnAtLocation(Moditems.COAL.get());
         }
-        if (this.random.nextFloat() < 0.05F ) {
+        if (this.random.nextFloat() < 0.1F ) {
             this.spawnAtLocation(Moditems.WHEATSEEDS.get());
+        }
+        if (this.random.nextFloat() < 0.05F ) {
+            this.spawnAtLocation(Moditems.RAWGOLD.get());
+        }
+        if (this.random.nextFloat() < 0.05F ) {
+            this.spawnAtLocation(Moditems.RAWSILVER.get());
+        }
+        if (this.random.nextFloat() < 0.05F ) {
+            this.spawnAtLocation(Moditems.RAWCOBALT.get());
+        }
+        if (this.random.nextFloat() < 0.05F ) {
+            this.spawnAtLocation(Moditems.RAWTIN.get());
         }
     }
 

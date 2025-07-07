@@ -2,15 +2,13 @@ package Roma;
 
 import Roma.block.ModBlocks;
 
-import Roma.entity.EntityRenderer;
+import Roma.entity.custom.AssassinlvoneRenderer;
 import Roma.entity.Modentities;
 import Roma.item.ModCreativeModeTabs;
 import Roma.item.Moditems;
 
 import Roma.item.custom.CustomAttribute;
 
-import Roma.worldgen.Biome.ModTerrablender;
-import Roma.worldgen.Biome.surface.ModSurfaceRules;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -28,7 +26,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
-import terrablender.api.SurfaceRuleManager;
+
 
 @Mod(roma.MOD_ID)
 public class roma
@@ -54,7 +52,7 @@ public class roma
         ModBlocks.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         CustomAttribute.register(modEventBus);
-        ModTerrablender.registerBiomes();
+
         Modentities.ENTITIES.register(modEventBus);
         modEventBus.register(Modentities.class);
         
@@ -75,7 +73,7 @@ public class roma
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
+
 
 
 
@@ -107,7 +105,7 @@ public class roma
 
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerEntityRenderer(Modentities.PERSIANASSASSIN.get(), EntityRenderer::new);
+            event.registerEntityRenderer(Modentities.PERSIANASSASSIN.get(), AssassinlvoneRenderer::new);
         }
     }
 

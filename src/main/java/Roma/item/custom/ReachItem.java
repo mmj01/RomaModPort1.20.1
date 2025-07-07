@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -19,88 +20,97 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.List;
 import java.util.UUID;
+
 
 public class ReachItem extends SwordItem {
 
-    // UUIDs for attributes — generate unique UUIDs per modifier
-    public static final String ATTACK_SPEED_UUID = ("11111111-2222-3333-4444-555555555555");
-    public static final String ATTACK_DAMAGE_UUID = ("22222222-3333-4444-5555-666666666666");
-    public static final String REACH_MOD_UUID = ("33333333-4444-5555-6666-777777777777");
-    public static final String KNOCKBACK_MOD_UUID =("44444444-5555-6666-7777-888888888888");
+    private static final UUID CATTACK_DAMAGE_UUID    = UUID.fromString("d4a1c3b2-5f6e-4a7b-8c9d-0e1f2a3b4c9d");
+    private static final UUID CATTACK_SPEED_UUID     = UUID.fromString("d4a1c3b2-9f6e-4a7b-8c9d-0e1f2a3b4c5d");
+    private static final UUID CATTACK_REACH_UUID     = UUID.fromString("d4a1c3b2-5f6e-4a7b-8c9d-0e1f2a3b4c5d");
+    private static final UUID CATTACK_KNOCKBACK_UUID = UUID.fromString("d4a1c3b2-5f6e-4a7b-8c9d-9e1f2a3b4c5d");
+
 
     private double reach;
     private double knockBack;
-    private int damage;
-    private int attackSpd;
+    private double damage;
+    private double attackSpd;
 
+
+
+    // Lazily build the attribute map once per item instance
     private final Supplier<Multimap<Attribute, AttributeModifier>> attributeMap = Suppliers.memoize(() -> {
-
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 
+        // Vanilla stats
         builder.put(Attributes.ATTACK_DAMAGE,
-                new AttributeModifier(ATTACK_DAMAGE_UUID, damage, AttributeModifier.Operation.ADDITION));
+                new AttributeModifier(CATTACK_DAMAGE_UUID, "citem_attack_damage", damage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED,
-                new AttributeModifier(ATTACK_SPEED_UUID, attackSpd, AttributeModifier.Operation.ADDITION));
-
-        builder.put(CustomAttribute.ATTACK_REACH.get(),
-                new AttributeModifier(REACH_MOD_UUID, reach, AttributeModifier.Operation.ADDITION));
-
+                new AttributeModifier(CATTACK_SPEED_UUID, "citem_attack_speed", attackSpd, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_KNOCKBACK,
-                new AttributeModifier(KNOCKBACK_MOD_UUID, knockBack, AttributeModifier.Operation.ADDITION));
+                new AttributeModifier(CATTACK_KNOCKBACK_UUID, "citem_attack_knockback", knockBack, AttributeModifier.Operation.ADDITION));
 
-        // Add custom attributes if needed (e.g. CustomAttribute.ATTACK_REACH)
+        // Forge reach attribute
+        Attribute reachAttr = ForgeMod.BLOCK_REACH.get();
+        builder.put(
+                reachAttr,
+                new AttributeModifier(CATTACK_REACH_UUID, "citem_attack_reach", reach, AttributeModifier.Operation.ADDITION)
+        );
 
         return builder.build();
     });
 
-    public ReachItem(Tier tier, int damage, int attackSpd, double reach, double knockBack, Properties properties) {
-        super(tier, damage, (float) attackSpd, properties);
-        this.reach = reach;
-        this.knockBack = knockBack;
-        this.damage = (int) ((float) damage + tier.getAttackDamageBonus());
+
+    public ReachItem(Tier tier, int damage, float attackSpd, double reach, double knockBack, Properties props) {
+        super(tier, damage, attackSpd, new Properties());
+        this.damage    = damage;
         this.attackSpd = attackSpd;
+        this.reach     = reach;
+        this.knockBack = knockBack;
     }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot == EquipmentSlot.MAINHAND ? attributeMap.get() : super.getAttributeModifiers(slot, stack);
+        return slot == EquipmentSlot.MAINHAND
+                ? attributeMap.get()
+                : super.getAttributeModifiers(slot, stack);
     }
 
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
-        if (entity.level().isClientSide) return super.onEntitySwing(stack, entity); // Server-side only
+        if (entity.level().isClientSide) return super.onEntitySwing(stack, entity);
 
-        double reach = entity.getAttributeValue(CustomAttribute.ATTACK_REACH.get());
-        double reachSqr = reach * reach;
+        double reachValue = entity.getAttributeValue(ForgeMod.BLOCK_REACH.get());
+        double reachSqr   = reachValue * reachValue;
 
-        Vec3 eyePos = entity.getEyePosition(1.0F); // with partial tick
-        Vec3 lookVec = entity.getLookAngle();
-        Vec3 targetVec = eyePos.add(lookVec.scale(reach));
+        Vec3 eyePos    = entity.getEyePosition(1.0F);
+        Vec3 lookDir   = entity.getLookAngle();
+        Vec3 targetPos = eyePos.add(lookDir.scale(reachValue));
 
-        AABB searchBox = entity.getBoundingBox().expandTowards(lookVec.scale(reach)).inflate(1.0D);
+        AABB searchBox = entity.getBoundingBox()
+                .expandTowards(lookDir.scale(reachValue))
+                .inflate(1.0D);
 
         EntityHitResult result = ProjectileUtil.getEntityHitResult(
-                entity.level(), entity, eyePos, targetVec, searchBox,
+                entity.level(), entity, eyePos, targetPos, searchBox,
                 e -> e instanceof LivingEntity && !e.isSpectator() && e.isPickable()
         );
 
         if (result != null && result.getEntity() instanceof LivingEntity target) {
             double distSqr = entity.distanceToSqr(target);
             if (distSqr <= reachSqr) {
-                float attackDamage = (float) entity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-
-                if (entity instanceof Player player) {
-                    target.hurt(entity.damageSources().playerAttack(player), attackDamage);
+                float atkDmg = (float) entity.getAttributeValue(Attributes.ATTACK_DAMAGE);
+                if (entity instanceof Player p) {
+                    target.hurt(entity.damageSources().playerAttack(p), atkDmg);
                 } else {
-                    target.hurt(entity.damageSources().mobAttack(entity), attackDamage);
+                    target.hurt(entity.damageSources().mobAttack(entity), atkDmg);
                 }
             }
         }
 
         return super.onEntitySwing(stack, entity);
     }
-
 }

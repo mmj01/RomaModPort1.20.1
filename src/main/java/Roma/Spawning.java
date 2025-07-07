@@ -39,7 +39,7 @@ public class Spawning {
 
 
         if (customLevel != null) {
-            BlockPos spawn = new BlockPos(-839, 163, 416); // Use your custom spawn point
+            BlockPos spawn = new BlockPos(15, 270, 16); // Use your custom spawn point
             player.teleportTo(customLevel, spawn.getX(), spawn.getY(), spawn.getZ(), player.getYRot(), player.getXRot());
         }
     }
@@ -48,7 +48,7 @@ public class Spawning {
     public static void onLevelLoad(LevelEvent.Load event) {
         if (!(event.getLevel() instanceof ServerLevel serverLevel)) return;
         if (serverLevel.dimension().location().equals(CUSTOM_DIM)){
-            BlockPos customSpawn = new BlockPos(-839, 163, 416); // Set your spawn location here
+            BlockPos customSpawn = new BlockPos(15, 270, 16); // Set your spawn location here
             serverLevel.setDefaultSpawnPos(customSpawn, 0.0f); // 0.0f is spawn angle
         }
 
