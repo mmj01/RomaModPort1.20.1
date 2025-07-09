@@ -136,5 +136,9 @@
   "item.rma.densehsteelpickaxe": "Dense High Grade Steel Pickaxe",
   "item.rma.denselsteelpickaxe": "Dense Low Grade Steel Pickaxe",
   "item.rma.densebronzepickaxe": "Dense Bronze Pickaxe",
-  "item.rma.densesuperalloypickaxe": "Dense SuperAlloy Pickaxe"
+  "item.rma.densesuperalloypickaxe": "Dense SuperAlloy Pickaxe",
+  "item.rma.persianassassin": "Persian Assassin",
+  "item.rma.persianassassinlvltwo": "Persian Warrior",
+  "item.rma.persianassassinlvlthree": "Persian Knight",
+  "item.rma.persianassassinlvlfour": "Persian Berserker"
 }

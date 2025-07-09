@@ -12,39 +12,39 @@ import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
 
-    IRONARMOR("ironarmormaterial", 25,
+    IRONARMOR("ironarmormaterial", 100,
             makeMap(5, 7, 9, 5), 5,
-            SoundEvents.ARMOR_EQUIP_IRON, 0.1f, 0.0f,
+            SoundEvents.ARMOR_EQUIP_IRON, 0.1f, 0.1f,
             () -> Ingredient.of(Moditems.IRONINGOT.get())),
 
-    BRASSARMOR("brassarmormaterial", 15,
+    BRASSARMOR("brassarmormaterial", 125,
             makeMap(6, 8, 10, 6), 4,
-            SoundEvents.ARMOR_EQUIP_CHAIN, 0.1f, 0.0f,
+            SoundEvents.ARMOR_EQUIP_CHAIN, 0.1f, 0.2f,
             () -> Ingredient.of(Moditems.BRASSINGOT.get())),
 
-    COPPERARMOR("copperarmormaterial", 15,
+    COPPERARMOR("copperarmormaterial", 75,
             makeMap(4, 6, 8, 4), 3,
             SoundEvents.ARMOR_EQUIP_CHAIN, 0.0f, 0.0f,
             () -> Ingredient.of(Moditems.COPPERINGOT.get())),
 
-    BRONZEARMOR("bronzearmormaterial", 25,
+    BRONZEARMOR("bronzearmormaterial", 150,
             makeMap(7, 10, 12, 7), 6,
-            SoundEvents.ARMOR_EQUIP_IRON, 0.2f, 0.0f,
+            SoundEvents.ARMOR_EQUIP_IRON, 0.2f, 0.3f,
             () -> Ingredient.of(Moditems.BRONZEINGOT.get())),
 
-    LSTEELARMOR("lsteelarmormaterial", 28,
+    LSTEELARMOR("lsteelarmormaterial", 175,
             makeMap(9, 12, 14, 9), 8,
-            SoundEvents.ARMOR_EQUIP_NETHERITE, 0.4f, 0.0f,
+            SoundEvents.ARMOR_EQUIP_NETHERITE, 0.4f, 0.4f,
             () -> Ingredient.of(Moditems.LSTEELINGOT.get())),
 
-    HSTEELARMOR("hsteelarmormaterial", 30,
+    HSTEELARMOR("hsteelarmormaterial", 200,
             makeMap(10, 14, 17, 10), 9,
-            SoundEvents.ARMOR_EQUIP_NETHERITE, 0.5f, 0.0f,
+            SoundEvents.ARMOR_EQUIP_NETHERITE, 0.5f, 0.5f,
             () -> Ingredient.of(Moditems.HSTEELINGOT.get())),
 
-    SUPERALLOYARMOR("superalloymaterial", 37,
+    SUPERALLOYARMOR("superalloymaterial", 370,
             makeMap(18, 23, 26, 18), 13,
-            SoundEvents.ARMOR_EQUIP_NETHERITE, 0.7f, 0.0f,
+            SoundEvents.ARMOR_EQUIP_NETHERITE, 0.7f, 0.8f,
             () -> Ingredient.of(Moditems.SUPERALLOYINGOT.get()));
 
     // ==== Fields ====

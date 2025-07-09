@@ -3,10 +3,23 @@ package Roma.util;
 import Roma.roma;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public class ModTags {
+    public static class Items{
+
+
+        public static final TagKey<Item> KEEPONDEATH = createitemTag("keepondeath");
+
+    }
+
+
+
+
+
     public static class Blocks {
 
 
@@ -27,11 +40,18 @@ public class ModTags {
 
 
 
+
     }
 
     private static TagKey<Block> createTag(String name) {
         return BlockTags.create(ResourceLocation.fromNamespaceAndPath(roma.MOD_ID, name));
     }
+
+    private static TagKey<Item> createitemTag(String name) {
+        return ItemTags.create(ResourceLocation.fromNamespaceAndPath(roma.MOD_ID, name));
+    }
+
+
 
 
 

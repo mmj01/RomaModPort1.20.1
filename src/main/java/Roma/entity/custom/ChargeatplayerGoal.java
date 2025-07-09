@@ -1,5 +1,6 @@
 package Roma.entity.custom;
 
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +23,11 @@ public class ChargeatplayerGoal extends Goal {
         this.target = mob.level().getNearestPlayer(mob, 16);
         return target != null && target.isAlive();
     }
+    @Override
+    public boolean canContinueToUse() {
+        LivingEntity target = mob.getTarget();
+        return target != null && target.isAlive() && !mob.getNavigation().isDone();
+    }
 
     @Override
     public void start() {
@@ -29,10 +35,17 @@ public class ChargeatplayerGoal extends Goal {
             mob.getNavigation().moveTo(target, speed);
         }
     }
-
     @Override
-    public boolean canContinueToUse() {
-        return target != null && target.isAlive() && mob.distanceToSqr(target) > 4;
+    public void tick() {
+        LivingEntity target = mob.getTarget();
+        if (target != null) {
+            mob.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (mob.distanceToSqr(target) > 4.0D) {
+                mob.getNavigation().moveTo(target, speed);
+            }
+        }
     }
+
+
 } // end ChargeatplayerGoal
 

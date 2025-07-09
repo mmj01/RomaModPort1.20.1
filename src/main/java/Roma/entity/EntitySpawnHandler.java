@@ -130,7 +130,7 @@ public class EntitySpawnHandler {
     public static void trySpawnlvlfourassassin(ServerLevel level) {
         for (ServerPlayer player : level.players()) {
             if (lvlfourassassin(player)) {
-                if (level.random.nextFloat() < 0.05f) { // 5% chance per tick cycle
+                if (level.random.nextFloat() < 0.07f) { // 5% chance per tick cycle
                     BlockPos targetPos = player.blockPosition().offset(
                             level.random.nextInt(20) - 10, 0, level.random.nextInt(20) - 10
                     );

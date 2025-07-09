@@ -18,6 +18,8 @@ import net.minecraft.world.item.ItemStack;
 
 
 public class PersianAssassin extends Monster {
+    private int noPlayerVisibleTicks = 0;
+
 
 
 
@@ -68,14 +70,40 @@ public class PersianAssassin extends Monster {
         }
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+
+        // Only run on server side
+        if (!this.level().isClientSide) {
+            Player nearest = this.level().getNearestPlayer(this, 40.0D); // check within 40 blocks
+
+            if (nearest != null && this.hasLineOfSight(nearest)) {
+                noPlayerVisibleTicks = 0; // player seen, reset timer
+            } else {
+                noPlayerVisibleTicks++;
+            }
+
+            if (noPlayerVisibleTicks > 9600) { // e.g. 600 ticks = 30 seconds
+                this.discard(); // despawn entity
+            }
+        }
+    }
+
 
 
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(2, new CustomReachAttackGoal(this, 1.2D, false, 6.0F));
-        this.goalSelector.addGoal(3, new ChargeatplayerGoal(this, 1.4D));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, true) {
+            @Override
+            protected int getAttackInterval() {
+                return 10; // ticks between attacks (default is 20)
+            }
+        });
+        this.goalSelector.addGoal(3, new CustomReachAttackGoal(this, 1.2D, false, 6.0F));
+        this.goalSelector.addGoal(2, new ChargeatplayerGoal(this, 1.4D));
         this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0f));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
