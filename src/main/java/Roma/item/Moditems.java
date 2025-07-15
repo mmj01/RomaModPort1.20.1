@@ -1,10 +1,7 @@
 package Roma.item;
 
 import Roma.block.ModBlocks;
-import Roma.item.custom.FuelItem;
-import Roma.item.custom.ModPickaxeItem;
-import Roma.item.custom.ReachItem;
-import Roma.item.custom.chisel;
+import Roma.item.custom.*;
 import Roma.roma;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -85,6 +82,11 @@ public class Moditems {
     public static final RegistryObject<Item> BREAD = ITEMS.register("bread",
             () -> new Item(new Item.Properties().food(ModFoodProperties.BREAD)));
 
+    public static final RegistryObject<Item> POTATO = ITEMS.register("potato",
+            () ->  new ItemNameBlockItem(ModBlocks.POTATOCROP.get(), new Item.Properties().food(ModFoodProperties.POTATO)));
+    public static final RegistryObject<Item> CARROT = ITEMS.register("carrot",
+            () ->  new ItemNameBlockItem(ModBlocks.CARROTCROP.get(), new Item.Properties().food(ModFoodProperties.CARROT)));
+
     public static final RegistryObject<Item> IRONBLADE = ITEMS.register("ironblade",
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> WOODBLADE = ITEMS.register("woodblade",
@@ -115,6 +117,34 @@ public class Moditems {
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> TREATEDIRONINGOT = ITEMS.register("treatedironingot",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SUPERALLOYAMALGAM = ITEMS.register("superalloyamalgam",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> JUMPSKILL = ITEMS.register("jumpskill",
+            () -> new jumpskill(new Item.Properties()));
+    public static final RegistryObject<Item> REGENSKILL = ITEMS.register("regenskill",
+            () -> new regenskill(new Item.Properties()));
+    public static final RegistryObject<Item> STRENGTHSKILL = ITEMS.register("strengthskill",
+            () -> new strengthskill(new Item.Properties()));
+    public static final RegistryObject<Item> HASTESKILL = ITEMS.register("hasteskill",
+            () -> new hasteskill(new Item.Properties()));
+
+    public static final RegistryObject<Item> COPPERCOIN = ITEMS.register("coppercoin",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SILVERCOIN = ITEMS.register("silvercoin",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> GOLDCOIN = ITEMS.register("goldcoin",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> PLATINUMCOIN = ITEMS.register("platinumcoin",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> COPPERCOINS = ITEMS.register("coppercoins",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SILVERCOINS = ITEMS.register("silvercoins",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> GOLDCOINS = ITEMS.register("goldcoins",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> PLATINUMCOINS = ITEMS.register("platinumcoins",
+            () -> new Item(new Item.Properties()));
+
 
     public static final RegistryObject<Item> IRONPLATE = ITEMS.register("ironplate",
             () -> new Item(new Item.Properties()));
@@ -130,6 +160,44 @@ public class Moditems {
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SUPERALLOYPLATE = ITEMS.register("superalloyplate",
             () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> SCYTHE = ITEMS.register("ironscythe",
+            () -> new ScytheItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> STRING= ITEMS.register("string",
+            ()-> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> WOODFISHINGROD = ITEMS.register("woodfishingrod",()-> new
+            FishingRodItem(new Item.Properties().durability(64)));
+    public static final RegistryObject<Item> IRONFISHINGROD = ITEMS.register("ironfishingrod",()-> new
+            FishingRodItem(new Item.Properties().durability(128)));
+    public static final RegistryObject<Item> BRASSFISHINGROD = ITEMS.register("brassfishingrod",()-> new
+            FishingRodItem(new Item.Properties().durability(256)));
+    public static final RegistryObject<Item> HSTEELFISHINGROD = ITEMS.register("hsteelfishingrod",()-> new
+            FishingRodItem(new Item.Properties().durability(512)));
+    public static final RegistryObject<Item> SUPERALLOYFISHINGROD = ITEMS.register("superalloyfishingrod",()-> new
+            FishingRodItem(new Item.Properties().durability(1024)));
+
+    public static final RegistryObject<Item> COD = ITEMS.register("cod",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.COD)));
+    public static final RegistryObject<Item> SALMON = ITEMS.register("salmon",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.SALMON)));
+    public static final RegistryObject<Item> CARP = ITEMS.register("carp",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.CARP)));
+    public static final RegistryObject<Item> TROUT = ITEMS.register("trout",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.TROUT)));
+    public static final RegistryObject<Item> GUPPY = ITEMS.register("guppy",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.GUPPY)));
+    public static final RegistryObject<Item> BLUEGILL = ITEMS.register("bluegill",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.BLUEGILL)));
+    public static final RegistryObject<Item> CATFISH = ITEMS.register("catfish",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.CATFISH)));
+    public static final RegistryObject<Item> BASS = ITEMS.register("bass",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.BASS)));
+    public static final RegistryObject<Item> MARLIN = ITEMS.register("marlin",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.MARLIN)));
+    public static final RegistryObject<Item> SHARK = ITEMS.register("shark",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.SHARK)));
 
 
 

@@ -37,6 +37,26 @@
           "properties": { "age": "7" }
         }
       ]
+    },{
+      "name": "rare_string",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:string"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "rma:wheatcrop",
+          "properties": { "age": "7" }
+        },
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.05
+        }
+      ]
     }
   ]
 }

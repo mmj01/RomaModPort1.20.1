@@ -139,6 +139,7 @@ public class ModFarmlandBlock extends Block {
         Block plantBlock = plantable.getPlant(world, pos.above()).getBlock();
 
         return plantBlock instanceof ModCropBlock;
+
     }
 
 

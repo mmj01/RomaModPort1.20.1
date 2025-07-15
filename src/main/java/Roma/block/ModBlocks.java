@@ -1,6 +1,8 @@
 package Roma.block;
 
 import Roma.block.custom.*;
+import Roma.block.custom.CarrotBlock;
+import Roma.block.custom.PotatoBlock;
 import Roma.item.Moditems;
 import Roma.roma;
 import Roma.worldgen.tree.ModTreeGrower;
@@ -73,7 +75,7 @@ public class ModBlocks {
                 }
             });
     public static final RegistryObject<Block> CYPRESSLEAVES = registerBlock("cypressleaves",
-            () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)){
+            () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).randomTicks().noOcclusion()){
                 @Override
                 public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
                     return true;
@@ -106,6 +108,8 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> FARMLAND = BLOCKS.register("farmland",
             () -> new ModFarmlandBlock(BlockBehaviour.Properties.copy(Blocks.FARMLAND)));
+
+
 
     public static final RegistryObject<Block> ROCK = registerBlock("rock",
             ()-> new DropExperienceBlock( BlockBehaviour.Properties.copy(Blocks.STONE)
@@ -181,6 +185,18 @@ public class ModBlocks {
                             .requiresCorrectToolForDrops()));
     public static final RegistryObject<Block> WHEATCROP = BLOCKS.register("wheatcrop",
             () -> new ModCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)
+                    .noCollission()
+                    .randomTicks()
+                    .instabreak()
+                    .offsetType(BlockBehaviour.OffsetType.XZ)));
+    public static final RegistryObject<Block> POTATOCROP = BLOCKS.register("potatocrop",
+            () -> new PotatoBlock(BlockBehaviour.Properties.copy(Blocks.POTATOES)
+                    .noCollission()
+                    .randomTicks()
+                    .instabreak()
+                    .offsetType(BlockBehaviour.OffsetType.XZ)));
+    public static final RegistryObject<Block> CARROTCROP = BLOCKS.register("carrotcrop",
+            () -> new CarrotBlock(BlockBehaviour.Properties.copy(Blocks.CARROTS)
                     .noCollission()
                     .randomTicks()
                     .instabreak()

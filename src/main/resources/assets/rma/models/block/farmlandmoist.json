@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/template_farmland",
   "textures": {
-    "top": "rma:block/farmlandmoist",
+    "top": "rma:block/farmlandtop",
     "dirt": "rma:block/dirt",
     "side": "rma:block/farmlandsidemoist"
   }

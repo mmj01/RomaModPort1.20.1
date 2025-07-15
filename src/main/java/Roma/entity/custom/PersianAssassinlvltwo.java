@@ -27,11 +27,13 @@ public class PersianAssassinlvltwo extends Monster {
 
     public PersianAssassinlvltwo(EntityType<? extends Monster> type, Level level) {
         super(type, level);
+        this.hurtDuration=0;
         this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 999999999,1,false,false));
         this.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 999999999,3,false,false));
+        this.addEffect(new MobEffectInstance(MobEffects.JUMP, 999999999,2,false,false));
 
 
-        this.xpReward = 40;
+        this.xpReward = 60;
         this.setPersistenceRequired();
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.DIAMOND_SWORD));
         this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Moditems.IRONCHESTPLATE.get()));
@@ -50,9 +52,9 @@ public class PersianAssassinlvltwo extends Monster {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.ARMOR, 12.0D)
+                .add(Attributes.ARMOR, 24.0D)
                 .add(Attributes.ATTACK_SPEED, 15.0D)
-                .add(Attributes.MAX_HEALTH, 80.0D)
+                .add(Attributes.MAX_HEALTH, 100.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.8D)
                 .add(Attributes.ATTACK_DAMAGE, 16.0D)
                 .add(Attributes.FOLLOW_RANGE, 40.0D)
@@ -111,18 +113,31 @@ public class PersianAssassinlvltwo extends Monster {
 
     @Override
     protected void registerGoals() {
+        // Core behavior
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, true) {
+
+        // Aggressive charge behavior (top priority)
+        this.goalSelector.addGoal(2, new ChargeatplayerGoal(this, 1.6D)); // Faster charge speed
+
+        // Melee attack with reduced cooldown
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.4D, true) {
             @Override
             protected int getAttackInterval() {
-                return 10; // ticks between attacks (default is 20)
+                return 5; // Very fast attacks
             }
         });
-        this.goalSelector.addGoal(3, new CustomReachAttackGoal(this, 1.2D, false, 6.0F));
-        this.goalSelector.addGoal(2, new ChargeatplayerGoal(this, 1.4D));
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0f));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+
+        // Extended reach custom attack (lower priority if it supplements melee)
+        this.goalSelector.addGoal(3, new CustomReachAttackGoal(this, 1.4D, false, 6.0F));
+
+        // Lower-priority passive movement
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+
+        // Observational behavior (very low priority)
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+
+        // Targeting logic
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
