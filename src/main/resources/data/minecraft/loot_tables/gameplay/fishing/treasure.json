@@ -1,0 +1,98 @@
+{
+  "type": "minecraft:empty",
+  "pools": [
+    {
+      "name": "superalloyfishingrod",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:superalloyfishingrod"]
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:shark"
+        }
+      ]
+    },
+    {
+      "name": "woodfishingrod",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:woodfishingrod"]
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:cod"
+        }
+      ]
+    },
+    {
+      "name": "ironfishingrod",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:ironfishingrod"]
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:trout"
+        }
+      ]
+    },
+    {
+      "name": "brassfishingrod",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:brassfishingrod"]
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:catfish"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:catfish"
+        }
+      ]
+    },
+    {
+      "name": "hsteelfishingrod",
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:hsteelfishingrod"]
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:bluegill"
+        }
+      ]
+    }
+  ]
+}

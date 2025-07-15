@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "minecraft:block/oak_planks",
+    "up": "rma:block/merchanttableup",
+    "north": "rma:block/merchanttablefront",
+    "south": "rma:block/merchanttablefront",
+    "west": "rma:block/merchanttablesidea",
+    "east": "rma:block/merchanttablesideb"
+  }
+}

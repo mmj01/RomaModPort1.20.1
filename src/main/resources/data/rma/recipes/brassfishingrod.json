@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  #",
+    " X&",
+    "X &"
+  ],
+  "key": {
+    "X": {
+      "item": "rma:brassingot"
+    },
+    "&": {
+      "item": "rma:string"
+    },
+    "#": {
+      "item": "rma:bronzeingot"
+    }
+  },
+
+  "result": {"count": 1,
+    "item": "rma:brassfishingrod"
+  }
+}
+

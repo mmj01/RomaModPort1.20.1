@@ -1,0 +1,63 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "seeds",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:carrot"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:block_state_property",
+            "block": "rma:carrotcrop",
+            "properties": { "age": "7" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "rma:carrot",
+      "rolls": 3,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:carrot"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "rma:carrotcrop",
+          "properties": { "age": "7" }
+        }
+      ]
+    },
+    {
+      "name": "rare_string",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:string"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "rma:carrotcrop",
+          "properties": { "age": "7" }
+        },
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.05
+        }
+      ]
+    }
+  ]
+}

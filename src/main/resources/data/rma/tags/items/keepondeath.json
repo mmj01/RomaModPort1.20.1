@@ -1,0 +1,100 @@
+{
+  "replace": false,
+  "values": [
+    "rma:ironhelmet",
+    "rma:ironchestplate",
+    "rma:ironleggings",
+    "rma:ironboots",
+
+    "rma:copperhelmet",
+    "rma:copperchestplate",
+    "rma:copperleggings",
+    "rma:copperboots",
+
+    "rma:brasshelmet",
+    "rma:brasschestplate",
+    "rma:brassleggings",
+    "rma:brassboots",
+
+    "rma:bronzehelmet",
+    "rma:bronzechestplate",
+    "rma:bronzeleggings",
+    "rma:bronzeboots",
+
+    "rma:lsteelhelmet",
+    "rma:lsteelchestplate",
+    "rma:lsteelleggings",
+    "rma:lsteelboots",
+
+    "rma:hsteelhelmet",
+    "rma:hsteelchestplate",
+    "rma:hsteelleggings",
+    "rma:hsteelboots",
+
+    "rma:superalloyhelmet",
+    "rma:superalloychestplate",
+    "rma:superalloyleggings",
+    "rma:superalloyboots",
+
+
+
+
+
+
+
+    "rma:ironpickaxe",
+    "rma:ironbattleaxe",
+    "rma:ironaxe",
+    "rma:ironshovel",
+
+    "rma:copperpickaxe",
+    "rma:copperbattleaxe",
+    "rma:copperaxe",
+
+
+    "rma:brasspickaxe",
+    "rma:brassbattleaxe",
+    "rma:brassaxe",
+    "rma:brassshovel",
+
+    "rma:bronzepickaxe",
+    "rma:bronzebattleaxe",
+    "rma:bronzeaxe",
+
+
+    "rma:lsteelpickaxe",
+    "rma:lsteelbattleaxe",
+    "rma:lsteelaxe",
+
+
+    "rma:hsteelpickaxe",
+    "rma:hsteelbattleaxe",
+    "rma:hsteelaxe",
+    "rma:hsteelshovel",
+
+    "rma:superalloypickaxe",
+    "rma:superalloybattleaxe",
+    "rma:superalloyaxe",
+    "rma:superalloyshovel",
+
+    "rma:woodgreatsword",
+    "rma:stonegreatsword",
+    "rma:irongreatsword",
+    "rma:brassgreatsword",
+    "rma:bronzegreatsword",
+    "rma:lsteelgreatsword",
+    "rma:hsteelgreatsword",
+    "rma:superalloygreatsword",
+
+
+    "rma:densewoodpickaxe",
+    "rma:densestonepickaxe",
+    "rma:denseironpickaxe",
+    "rma:densecopperpickaxe",
+    "rma:densebrasspickaxe",
+    "rma:densebronzepickaxe",
+    "rma:denselsteelpickaxe",
+    "rma:densehsteelpickaxe",
+    "rma:densesuperalloypickaxe"
+  ]
+}

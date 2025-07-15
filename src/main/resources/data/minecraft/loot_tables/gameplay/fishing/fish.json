@@ -1,0 +1,95 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "name": "woodfishingrod",
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:woodfishingrod"]
+          }
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:salmon"
+        }
+      ]
+    },
+    {
+      "name": "ironfishingrod",
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:ironfishingrod"]
+          }
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:carp"
+        }
+      ]
+    },
+    {
+      "name": "brassfishingrod",
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:brassfishingrod"]
+          }
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:guppy"
+        }
+      ]
+    },
+    {
+      "name": "hsteelfishingrod",
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:hsteelfishingrod"]
+          }
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:bass"
+        }
+      ]
+    },
+    {
+      "name": "superalloyfishingrod",
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": ["rma:superalloyfishingrod"]
+          }
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:marlin"
+        }
+      ]
+    }
+  ]
+}

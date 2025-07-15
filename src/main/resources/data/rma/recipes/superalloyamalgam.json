@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X#X",
+    "$Y$",
+    "%&%"
+  ],
+  "key": {
+    "Y": {
+      "item": "rma:alloymixer"
+    },
+    "X": {
+      "item": "rma:chromiumingot"
+    },
+    "#": {
+      "item": "rma:aluminumingot"
+    },
+    "$": {
+      "item": "rma:nickelingot"
+    },
+    "%": {
+      "item": "rma:cobaltingot"
+    },
+    "&": {
+      "item": "rma:hsteelingot"
+    }
+  },
+  "result": {
+    "count": 2,
+    "item": "rma:superalloyamalgam"
+  }
+}

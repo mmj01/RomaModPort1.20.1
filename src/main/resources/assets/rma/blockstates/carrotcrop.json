@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "age=0": { "model": "rma:block/carrot0" },
+    "age=1": { "model": "rma:block/carrot0" },
+    "age=2": { "model": "rma:block/carrot1" },
+    "age=3": { "model": "rma:block/carrot1" },
+    "age=4": { "model": "rma:block/carrot2" },
+    "age=5": { "model": "rma:block/carrot3" },
+    "age=6": { "model": "rma:block/carrot4" },
+    "age=7": { "model": "rma:block/carrot5" }
+  }
+}

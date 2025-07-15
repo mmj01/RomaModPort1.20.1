@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  #",
+    " X&",
+    "X &"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:stick"
+    },
+    "&": {
+      "item": "rma:string"
+    },
+    "#": {
+      "item": "rma:ironingot"
+    }
+  },
+
+  "result": {"count": 1,
+    "item": "rma:woodfishingrod"
+  }
+}
+

@@ -1,0 +1,62 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "seeds",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:potato"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:block_state_property",
+            "block": "rma:potatocrop",
+            "properties": { "age": "7" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "rma:potato",
+      "rolls": 6,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:potato"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "rma:potatocrop",
+          "properties": { "age": "7" }
+        }
+      ]
+    },{
+      "name": "rare_string",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "rma:string"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "rma:potatocrop",
+          "properties": { "age": "7" }
+        },
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.05
+        }
+      ]
+    }
+  ]
+}
