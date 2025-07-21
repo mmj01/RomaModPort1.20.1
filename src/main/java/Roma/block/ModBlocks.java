@@ -5,10 +5,12 @@ import Roma.block.custom.CarrotBlock;
 import Roma.block.custom.PotatoBlock;
 import Roma.item.Moditems;
 import Roma.roma;
+import Roma.worldgen.ModConfiguredFeatures;
 import Roma.worldgen.tree.ModTreeGrower;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.BlockItem;
@@ -23,6 +25,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
@@ -38,11 +41,33 @@ public class ModBlocks {
             ()-> new Block(BlockBehaviour.Properties
                     .copy(Blocks.STONE)
                     .strength(15f)
-                    .explosionResistance(8f)
+                    .explosionResistance(7f)
                     .requiresCorrectToolForDrops()));
 
+
+    public static final RegistryObject<Block> PINESAPLING = registerBlock("pinesapling",
+            () -> new SaplingBlock(new ModTreeGrower(ModConfiguredFeatures.IRON_ORE), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
     public static final RegistryObject<Block> CYPRESSSAPLING = registerBlock("cypresssapling",
-            () -> new SaplingBlock(new ModTreeGrower(), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
+            () -> new SaplingBlock(new ModTreeGrower(ModConfiguredFeatures.COAL_ORE), BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING)));
+
+
+
+
+    public static final RegistryObject<Block> GHOSTBLOCK = BLOCKS.register("ghostblock",
+            () -> new Barrier());
+
+
+    public static final RegistryObject<Block> UNBREAKABLECYPRESSLOG = registerBlock("unbreakablecypresslog",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK).strength(999999999,25)));
+    public static final RegistryObject<Block> UNBREAKABLEROCKBRICKS = registerBlock("unbreakablerockbricks",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK).strength(999999999,25)));
+    public static final RegistryObject<Block> UNBREAKABLECYPRESSPLANKS = registerBlock("unbreakablecypressplanks",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK).strength(999999999,25)));
+
+
+
+
+
 
 
 
@@ -54,6 +79,12 @@ public class ModBlocks {
             () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STRIPPED_OAK_LOG).strength(3f)));
     public static final RegistryObject<Block> STRIPPEDCYPRESSWOOD = registerBlock("strippedcypresswood",
             () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.STRIPPED_OAK_WOOD).strength(3f)));
+
+    public static final RegistryObject<Block> PINELOG = registerBlock("pinelog",
+            () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LOG).strength(3f)));
+    public static final RegistryObject<Block> PINEWOOD = registerBlock("pinewood",
+            () -> new ModFlammableRotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.OAK_WOOD).strength(3f)));
+
 
 
 
@@ -75,6 +106,41 @@ public class ModBlocks {
                 }
             });
     public static final RegistryObject<Block> CYPRESSLEAVES = registerBlock("cypressleaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).randomTicks().noOcclusion()){
+                @Override
+                public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return true;
+                }
+
+                @Override
+                public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 60;
+                }
+
+                @Override
+                public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 30;
+                }
+            });
+
+    public static final RegistryObject<Block> PINEPLANKS = registerBlock("pineplanks",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)) {
+                @Override
+                public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return true;
+                }
+
+                @Override
+                public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 20;
+                }
+
+                @Override
+                public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 5;
+                }
+            });
+    public static final RegistryObject<Block> PINELEAVES = registerBlock("pineleaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).randomTicks().noOcclusion()){
                 @Override
                 public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
@@ -184,19 +250,19 @@ public class ModBlocks {
                             .explosionResistance(5f)
                             .requiresCorrectToolForDrops()));
     public static final RegistryObject<Block> WHEATCROP = BLOCKS.register("wheatcrop",
-            () -> new ModCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT)
+            () -> new ModCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT).lightLevel(state->15)
                     .noCollission()
                     .randomTicks()
                     .instabreak()
                     .offsetType(BlockBehaviour.OffsetType.XZ)));
     public static final RegistryObject<Block> POTATOCROP = BLOCKS.register("potatocrop",
-            () -> new PotatoBlock(BlockBehaviour.Properties.copy(Blocks.POTATOES)
+            () -> new PotatoBlock(BlockBehaviour.Properties.copy(Blocks.POTATOES).lightLevel(state->15)
                     .noCollission()
                     .randomTicks()
                     .instabreak()
                     .offsetType(BlockBehaviour.OffsetType.XZ)));
     public static final RegistryObject<Block> CARROTCROP = BLOCKS.register("carrotcrop",
-            () -> new CarrotBlock(BlockBehaviour.Properties.copy(Blocks.CARROTS)
+            () -> new CarrotBlock(BlockBehaviour.Properties.copy(Blocks.CARROTS).lightLevel(state->15)
                     .noCollission()
                     .randomTicks()
                     .instabreak()

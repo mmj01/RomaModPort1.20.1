@@ -1,14 +1,21 @@
 package Roma;
 
+import Roma.block.ModBlocks;
+import Roma.item.Moditems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -23,7 +30,70 @@ public class HourDays {
     private static final ResourceKey<Level> CUSTOM_DIM = ResourceKey.create(
             Registries.DIMENSION,
              ResourceLocation.fromNamespaceAndPath("rma", "roma_dim")
+
+
+
     );
+
+
+
+
+    //Mining Fixes!!
+    private static final Map<Item, Integer> PICKAXE_LEVELS = new HashMap<>();
+
+    @SubscribeEvent
+    public static void onBreakSpeed(PlayerEvent.BreakSpeed event) {
+        // Define BLOCK_LEVELS inside method
+        Map<Block, Integer> BLOCK_LEVELS = Map.ofEntries(
+                Map.entry(ModBlocks.ROCK.get(), 0),
+                Map.entry(ModBlocks.COPPERORE.get(), 1),
+                Map.entry(ModBlocks.COALORE.get(), 1),
+                Map.entry(ModBlocks.IRONORE.get(), 2),
+                Map.entry(ModBlocks.TINORE.get(), 4),
+                Map.entry(ModBlocks.ZINCORE.get(), 3),
+                Map.entry(ModBlocks.COBALTORE.get(), 3),
+                Map.entry(ModBlocks.SILVERORE.get(), 4),
+                Map.entry(ModBlocks.ALUMINUMORE.get(), 5),
+                Map.entry(ModBlocks.GOLDORE.get(), 5),
+                Map.entry(ModBlocks.NICKELORE.get(), 6),
+                Map.entry(ModBlocks.PLATINUMORE.get(), 7),
+                Map.entry(ModBlocks.CHROMIUMORE.get(), 7)
+        );
+
+        // Lazy init AFTER registration is complete
+        if (PICKAXE_LEVELS.isEmpty()) {
+            PICKAXE_LEVELS.put(Moditems.WOODPICKAXE.get(), 0);
+            PICKAXE_LEVELS.put(Moditems.COPPERPICKAXE.get(), 2);
+            PICKAXE_LEVELS.put(Moditems.STONEPICKAXE.get(), 1);
+            PICKAXE_LEVELS.put(Moditems.IRONPICKAXE.get(), 3);
+            PICKAXE_LEVELS.put(Moditems.BRASSPICKAXE.get(), 4);
+            PICKAXE_LEVELS.put(Moditems.BRONZEPICKAXE.get(), 5);
+            PICKAXE_LEVELS.put(Moditems.LSTEELPICKAXE.get(), 6);
+            PICKAXE_LEVELS.put(Moditems.HSTEELPICKAXE.get(), 7);
+            PICKAXE_LEVELS.put(Moditems.SUPERALLOYPICKAXE.get(), 8);
+        }
+
+        BlockState state = event.getState();
+        Block block = state.getBlock();
+        ItemStack heldItem = event.getEntity().getMainHandItem();
+
+        Integer requiredLevel = BLOCK_LEVELS.get(block);
+        if (requiredLevel == null) return; // Block not restricted
+
+        Integer pickaxeLevel = PICKAXE_LEVELS.get(heldItem.getItem());
+        if (pickaxeLevel == null || pickaxeLevel < requiredLevel) {
+            event.setNewSpeed(0.0F); // Prevent mining
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     private static final int TIME_SCALE = 3;
 

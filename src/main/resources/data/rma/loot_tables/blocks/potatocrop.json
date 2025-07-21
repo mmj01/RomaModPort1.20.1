@@ -23,7 +23,7 @@
     },
     {
       "name": "rma:potato",
-      "rolls": 6,
+      "rolls": 5,
       "entries": [
         {
           "type": "minecraft:item",

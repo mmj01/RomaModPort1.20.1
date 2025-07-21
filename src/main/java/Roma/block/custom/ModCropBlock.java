@@ -36,5 +36,8 @@ public class ModCropBlock extends CropBlock {
         return 7; // default for crops like wheat
     }
 
-
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+        return 15;
+    }
 }

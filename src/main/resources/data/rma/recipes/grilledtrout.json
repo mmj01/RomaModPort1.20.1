@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rma:trout"
+  },
+  "result": {
+    "item": "rma:grilledtrout"
+  },
+  "cookingtime": 250
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "X#X",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "item": "rma:grilledmarlin"
+    },
+    "#": {
+      "item": "rma:sandwich"
+    }
+  },
+  "result": {"count": 1,
+    "item": "rma:marlinsandwich"
+  }
+}
+

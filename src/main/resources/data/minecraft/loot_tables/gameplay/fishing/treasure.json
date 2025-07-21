@@ -16,6 +16,18 @@
         {
           "type": "minecraft:item",
           "name": "rma:shark"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:bluegill"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:catfish"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:trout"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:cod"
         }
       ]
     },
@@ -52,6 +64,9 @@
         {
           "type": "minecraft:item",
           "name": "rma:trout"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:cod"
         }
       ]
     },
@@ -72,7 +87,10 @@
           "name": "rma:catfish"
         },{
           "type": "minecraft:item",
-          "name": "rma:catfish"
+          "name": "rma:trout"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:cod"
         }
       ]
     },
@@ -91,6 +109,15 @@
         {
           "type": "minecraft:item",
           "name": "rma:bluegill"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:catfish"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:trout"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:cod"
         }
       ]
     }

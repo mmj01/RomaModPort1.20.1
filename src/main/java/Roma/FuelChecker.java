@@ -12,13 +12,13 @@ public class FuelChecker {
     @SubscribeEvent
     public static void onFuelBurnTime(FurnaceFuelBurnTimeEvent event) {
         if (event.getItemStack().is(Moditems.COMPRESSEDCOAL.get())) {
-            event.setBurnTime(450); // Burn time in ticks
+            event.setBurnTime(900); // Burn time in ticks
         }
         if (event.getItemStack().is(Moditems.COAL.get())) {
-            event.setBurnTime(50); // Burn time in ticks
+            event.setBurnTime(100); // Burn time in ticks
         }
         if (event.getItemStack().is(Moditems.ULTRADENSECOAL.get())) {
-            event.setBurnTime(4050); // Burn time in ticks
+            event.setBurnTime(8100); // Burn time in ticks
         }
     }
 }

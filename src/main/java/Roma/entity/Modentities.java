@@ -46,6 +46,13 @@ public class Modentities {
                             .sized(1.3f, 3.2f) // width, height
                             .clientTrackingRange(8)
                             .build("persianassassinlvlfour"));
+    public static final RegistryObject<EntityType<PersianShawman>> PERSIANSHAWMAN  =
+            ENTITIES.register("persianshawman",
+                    () -> EntityType.Builder.of(PersianShawman::new, MobCategory.MONSTER)
+                            .fireImmune()
+                            .sized(3f, 8f) // width, height
+                            .clientTrackingRange(8)
+                            .build("persianshawman"));
 
 
 
@@ -57,6 +64,7 @@ public class Modentities {
         event.put(Modentities.PERSIANASSASSINLVLTWO.get(), PersianAssassinlvltwo.createAttributes().build());
         event.put(Modentities.PERSIANASSASSINLVLTHREE.get(), PersianAssassinlvlthree.createAttributes().build());
         event.put(Modentities.PERSIANASSASSINLVLFOUR.get(), PersianAssassinlvlfour.createAttributes().build());
+        event.put(Modentities.PERSIANSHAWMAN.get(), PersianShawman.createAttributes().build());
     }
 
 

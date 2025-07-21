@@ -14,5 +14,7 @@ public class Renderingeventhandler {
         event.registerEntityRenderer(Modentities.PERSIANASSASSINLVLTWO.get(), AssassinlvtwoRenderer::new);
         event.registerEntityRenderer(Modentities.PERSIANASSASSINLVLTHREE.get(), AssassinlvthreeRenderer::new);
         event.registerEntityRenderer(Modentities.PERSIANASSASSINLVLFOUR.get(), AssassinlvfourRenderer::new);
+        event.registerEntityRenderer(Modentities.PERSIANSHAWMAN.get(), PersianShawmanRenderer::new);
+
     }
 }

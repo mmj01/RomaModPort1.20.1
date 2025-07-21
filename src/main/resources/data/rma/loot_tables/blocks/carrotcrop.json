@@ -23,7 +23,7 @@
     },
     {
       "name": "rma:carrot",
-      "rolls": 3,
+      "rolls": 4,
       "entries": [
         {
           "type": "minecraft:item",

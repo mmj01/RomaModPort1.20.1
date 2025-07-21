@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rma:potato"
+  },
+  "result": {
+    "item": "rma:bakedpotato"
+  },
+  "cookingtime": 300
+}

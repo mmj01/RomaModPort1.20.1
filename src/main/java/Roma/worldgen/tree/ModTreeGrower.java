@@ -12,8 +12,18 @@ import org.jetbrains.annotations.Nullable;
 
 public class ModTreeGrower extends AbstractTreeGrower {
 
-    @Override
-    protected @Nullable ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource pRandom, boolean pHasFlowers) {
-        return Roma.worldgen.ModConfiguredFeatures.CYPRESS;
-    }
+
+        private final ResourceKey<ConfiguredFeature<?, ?>> treeFeature;
+
+        public ModTreeGrower(ResourceKey<ConfiguredFeature<?, ?>> treeFeature) {
+            this.treeFeature = treeFeature;
+        }
+
+        @Override
+        protected @Nullable ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource random, boolean hasFlowers) {
+            return this.treeFeature;
+        }
 }
+
+
+

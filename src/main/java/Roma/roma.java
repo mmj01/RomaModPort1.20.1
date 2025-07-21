@@ -2,12 +2,14 @@ package Roma;
 
 import Roma.block.ModBlocks;
 
+import Roma.enchantment.ModEnchantments;
 import Roma.entity.custom.AssassinlvoneRenderer;
 import Roma.entity.Modentities;
 import Roma.item.ModCreativeModeTabs;
 import Roma.item.Moditems;
 
 import Roma.item.custom.CustomAttribute;
+
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -52,11 +54,21 @@ public class roma
         ModBlocks.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         CustomAttribute.register(modEventBus);
+        ModEnchantments.register(modEventBus);
+
 
         Modentities.ENTITIES.register(modEventBus);
         modEventBus.register(Modentities.class);
 
-        
+
+
+
+
+
+
+
+
+
 
 
 
@@ -70,6 +82,11 @@ public class roma
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
+
+
+
+
+
 
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -94,6 +111,9 @@ public class roma
     }
 
 
+
+
+
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
     {
@@ -115,16 +135,12 @@ public class roma
         public static void onClientSetup(FMLClientSetupEvent event)
         {
 
-
-
-
-
-
-
             event.enqueueWork(() -> {
                 ItemBlockRenderTypes.setRenderLayer(ModBlocks.WHEATCROP.get(), RenderType.cutout());
             });
 
         }
-    }
+
+}
+
 

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rma:bass"
+  },
+  "result": {
+    "item": "rma:grilledbass"
+  },
+  "cookingtime": 450
+}

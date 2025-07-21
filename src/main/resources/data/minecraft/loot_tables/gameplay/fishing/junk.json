@@ -34,6 +34,9 @@
         {
           "type": "minecraft:item",
           "name": "rma:coppercoins"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:coppercoin"
         }
       ]
     },
@@ -52,6 +55,12 @@
         {
           "type": "minecraft:item",
           "name": "rma:silvercoin"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:coppercoins"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:coppercoin"
         }
       ]
     },
@@ -70,6 +79,15 @@
         {
           "type": "minecraft:item",
           "name": "rma:silvercoins"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:silvercoin"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:coppercoins"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:coppercoin"
         }
       ]
     },
@@ -88,6 +106,18 @@
         {
           "type": "minecraft:item",
           "name": "rma:goldcoin"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:silvercoins"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:silvercoin"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:coppercoins"
+        },{
+          "type": "minecraft:item",
+          "name": "rma:coppercoin"
         }
       ]
     }

@@ -1,7 +1,9 @@
 package Roma.entity.custom;
 
+import Roma.enchantment.ModEnchantments;
 import Roma.item.Moditems;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,7 +15,9 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.*;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -72,7 +76,40 @@ public class PersianAssassin extends Monster {
         }
         if (this.random.nextFloat() < 0.05F ) {
             this.spawnAtLocation(Moditems.WHEATSEEDS.get());
+
         }
+        if (this.random.nextFloat() < 0.000001F) {
+            ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
+            EnchantmentInstance enchantmentInstance = new EnchantmentInstance(ModEnchantments.FLEET.get(), 1);
+            EnchantedBookItem.addEnchantment(enchantedBook, enchantmentInstance);
+            this.spawnAtLocation(enchantedBook);
+        }
+        if (this.random.nextFloat() < 0.000001F) {
+            ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
+            EnchantmentInstance enchantmentInstance = new EnchantmentInstance(ModEnchantments.HEAVY.get(), 1);
+            EnchantedBookItem.addEnchantment(enchantedBook, enchantmentInstance);
+            this.spawnAtLocation(enchantedBook);
+        }
+        if (this.random.nextFloat() < 0.000001F) {
+            ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
+            EnchantmentInstance enchantmentInstance = new EnchantmentInstance(ModEnchantments.SHARP.get(), 1);
+            EnchantedBookItem.addEnchantment(enchantedBook, enchantmentInstance);
+            this.spawnAtLocation(enchantedBook);
+        }
+        if (this.random.nextFloat() < 0.00001F) {
+            ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
+            EnchantmentInstance enchantmentInstance = new EnchantmentInstance(ModEnchantments.ROBUST.get(), 1);
+            EnchantedBookItem.addEnchantment(enchantedBook, enchantmentInstance);
+            this.spawnAtLocation(enchantedBook);
+        }
+    }
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        // Ignore explosion damage
+        if (source.is(DamageTypeTags.IS_EXPLOSION)) {
+            return true;
+        }
+        return super.isInvulnerableTo(source);
     }
 
     @Override
