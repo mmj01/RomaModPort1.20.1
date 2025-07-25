@@ -2,6 +2,7 @@ package Roma.item;
 
 import Roma.block.ModBlocks;
 import Roma.item.custom.*;
+import Roma.item.spells.*;
 import Roma.roma;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,6 +17,20 @@ public class Moditems {
     //Boss Summon
     public static final RegistryObject<Item> SHAWMANSUMMON = ITEMS.register("shawmansummon",
             ()-> new shawmansummoner(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
+
+    //Magic Items
+    public static final RegistryObject<Item> LIGHTNINGSPELL = ITEMS.register("lightningspell",
+            () -> new SpellScrollItem(new LightningSpell(),new Item.Properties()));
+    public static final RegistryObject<Item> CHAINLIGHTINGSPELL = ITEMS.register("chainlightingspell",
+            () -> new SpellScrollItem(new ChainLightningSpell(),new Item.Properties()));
+    public static final RegistryObject<Item> GROWTHSPELL = ITEMS.register("growthspell",
+            () -> new SpellScrollItem(new GrowthSpell(),new Item.Properties()));
+    public static final RegistryObject<Item> MENDINGSPELL = ITEMS.register("mendingspell",
+            () -> new SpellScrollItem(new RepairSpell(),new Item.Properties()));
+    public static final RegistryObject<Item> ICEPRISONSPELL = ITEMS.register("iceprisonspell",
+            () -> new SpellScrollItem(new IceTrapSpell(),new Item.Properties()));
+    public static final RegistryObject<Item> RETURNSPELL = ITEMS.register("returnspell",
+            () -> new SpellScrollItem(new WaypointSpell(),new Item.Properties()));
 
 
 

@@ -94,15 +94,7 @@ public class ModFarmlandBlock extends Block {
         }
     }
 
-    @Override
-    public void fallOn(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, float pFallDistance) {
-        if (!pLevel.isClientSide
-                && net.minecraftforge.common.ForgeHooks.onFarmlandTrample(pLevel, pPos, ModBlocks.DIRT.get().defaultBlockState(), pFallDistance, pEntity)) { // Forge: Move logic to Entity#canTrample
-            turnToDirt(pEntity, pState, pLevel, pPos);
-        }
 
-        super.fallOn(pLevel, pState, pPos, pEntity, pFallDistance);
-    }
 
     public static void turnToDirt(@Nullable Entity pEntity, BlockState pState, Level pLevel, BlockPos pPos) {
         BlockState blockstate = pushEntitiesUp(pState, ModBlocks.DIRT.get().defaultBlockState(), pLevel, pPos);
