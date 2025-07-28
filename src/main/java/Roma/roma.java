@@ -11,12 +11,9 @@ import Roma.item.custom.CustomAttribute;
 // Add these imports for the mana system
 import Roma.item.spells.IceTrapSpell;
 import Roma.magic.config.ManaConfig;
-
-
 import Roma.magic.config.NetworkHandler;
+
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -46,7 +43,8 @@ public class roma
 
         modEventBus.addListener(this::commonSetup);
 
-        MinecraftForge.EVENT_BUS.register(this);
+        // DON'T register the main class to the event bus - it has mixed client/server methods
+        // MinecraftForge.EVENT_BUS.register(this);
 
         //Place Registers here for new items
         Moditems.register(modEventBus);
@@ -62,19 +60,18 @@ public class roma
         // Register mana system configuration
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ManaConfig.SPEC, "rma-mana.toml");
 
-        // Register mana networking
-        NetworkHandler.register();
+        // MOVED: NetworkHandler.register() to commonSetup to avoid client-side loading issues
         // === END MANA SYSTEM === //
 
         modEventBus.addListener(this::addCreative);
-
-
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        // You can add any common setup for mana system here if needed
-        // Most of the mana system is handled automatically through events
+        // Register mana networking in common setup to ensure proper side handling
+        event.enqueueWork(() -> {
+            NetworkHandler.register();
+        });
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event)
@@ -82,30 +79,35 @@ public class roma
         // Add any mana-related items to creative tabs here if you create them
     }
 
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-        // Server-side initialization if needed
-    }
-    @SubscribeEvent
-    public void onServerTick(TickEvent.ServerTickEvent event) {
-
-        if (event.phase == TickEvent.Phase.END) {
-            IceTrapSpell.tickIceBlocks();
+    // Server-side event handlers - create separate event subscriber class
+    @Mod.EventBusSubscriber(modid = MOD_ID)
+    public static class ServerEvents {
+        @SubscribeEvent
+        public static void onServerStarting(ServerStartingEvent event)
+        {
+            // Server-side initialization if needed
         }
-    }
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && !event.player.level().isClientSide) {
-            Player player = event.player;
-            var data = player.getPersistentData();
 
-            // Reduce all spell cooldowns
-            for (String key : data.getAllKeys()) {
-                if (key.startsWith("cooldown_")) {
-                    int currentCooldown = data.getInt(key);
-                    if (currentCooldown > 0) {
-                        data.putInt(key, currentCooldown - 1);
+        @SubscribeEvent
+        public static void onServerTick(TickEvent.ServerTickEvent event) {
+            if (event.phase == TickEvent.Phase.END) {
+                IceTrapSpell.tickIceBlocks();
+            }
+        }
+
+        @SubscribeEvent
+        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+            if (event.phase == TickEvent.Phase.END && !event.player.level().isClientSide) {
+                Player player = event.player;
+                var data = player.getPersistentData();
+
+                // Reduce all spell cooldowns
+                for (String key : data.getAllKeys()) {
+                    if (key.startsWith("cooldown_")) {
+                        int currentCooldown = data.getInt(key);
+                        if (currentCooldown > 0) {
+                            data.putInt(key, currentCooldown - 1);
+                        }
                     }
                 }
             }
@@ -123,8 +125,12 @@ public class roma
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
+            // CLIENT IMPORTS MOVED HERE - now they're only loaded on client
             event.enqueueWork(() -> {
-                ItemBlockRenderTypes.setRenderLayer(ModBlocks.WHEATCROP.get(), RenderType.cutout());
+                net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(
+                        ModBlocks.WHEATCROP.get(),
+                        net.minecraft.client.renderer.RenderType.cutout()
+                );
             });
         }
     }

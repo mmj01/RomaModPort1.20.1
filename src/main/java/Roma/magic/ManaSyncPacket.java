@@ -1,9 +1,7 @@
 package Roma.magic;
 
 import Roma.magic.ManaCapability;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -17,29 +15,31 @@ public class ManaSyncPacket {
         this.maxMana = maxMana;
     }
 
-    public static void encode(ManaSyncPacket packet, FriendlyByteBuf buf) {
-        buf.writeInt(packet.mana);
-        buf.writeInt(packet.maxMana);
+    public ManaSyncPacket(FriendlyByteBuf buf) {
+        this.mana = buf.readInt();
+        this.maxMana = buf.readInt();
     }
 
-    public static ManaSyncPacket decode(FriendlyByteBuf buf) {
-        return new ManaSyncPacket(buf.readInt(), buf.readInt());
+    public void toBytes(FriendlyByteBuf buf) {
+        buf.writeInt(this.mana);
+        buf.writeInt(this.maxMana);
     }
 
-    public static void handle(ManaSyncPacket packet, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            // Only handle on client side
-            if (ctx.get().getDirection().getReceptionSide().isClient()) {
-                Player player = Minecraft.getInstance().player;
-                if (player != null) {
-                    // Use the safe capability getter
-                    player.getCapability(ManaCapability.MANA_CAPABILITY).ifPresent(mana -> {
-                        mana.setMaxMana(packet.maxMana);
-                        mana.setMana(packet.mana);
-                    });
-                }
-            }
-        });
-        ctx.get().setPacketHandled(true);
+    public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+
+        if (context.getDirection().getReceptionSide().isClient()) {
+            context.enqueueWork(() -> ClientHandler.handleManaSync(this));
+        }
+
+        context.setPacketHandled(true);
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public int getMaxMana() {
+        return maxMana;
     }
 }

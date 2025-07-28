@@ -1,10 +1,8 @@
 package Roma.magic.config;
 
-
 import Roma.magic.ManaSyncPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -13,7 +11,7 @@ public class NetworkHandler {
 
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            ResourceLocation.fromNamespaceAndPath("rma", "main"),
+            new ResourceLocation("rma", "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
@@ -22,14 +20,11 @@ public class NetworkHandler {
     private static int packetId = 0;
 
     public static void register() {
-        // Register ManaSyncPacket
-        INSTANCE.messageBuilder(ManaSyncPacket.class, packetId++, NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(ManaSyncPacket::decode)
-                .encoder(ManaSyncPacket::encode)
+        INSTANCE.messageBuilder(ManaSyncPacket.class, packetId++)
+                .encoder(ManaSyncPacket::toBytes)
+                .decoder(ManaSyncPacket::new)
                 .consumerMainThread(ManaSyncPacket::handle)
                 .add();
-
-        // Add more packets here as needed
     }
 
     public static <MSG> void sendToServer(MSG message) {

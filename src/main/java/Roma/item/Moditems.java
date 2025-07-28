@@ -169,21 +169,21 @@ public class Moditems {
     //Coins
 
     public static final RegistryObject<Item> COPPERCOIN = ITEMS.register("coppercoin",
-            () -> new Item(new Item.Properties()));
+            () -> new FlippableCoin(new Item.Properties()));
     public static final RegistryObject<Item> SILVERCOIN = ITEMS.register("silvercoin",
-            () -> new Item(new Item.Properties()));
+            () -> new FlippableCoin(new Item.Properties()));
     public static final RegistryObject<Item> GOLDCOIN = ITEMS.register("goldcoin",
-            () -> new Item(new Item.Properties()));
+            () -> new FlippableCoin(new Item.Properties()));
     public static final RegistryObject<Item> PLATINUMCOIN = ITEMS.register("platinumcoin",
-            () -> new Item(new Item.Properties()));
+            () -> new FlippableCoin(new Item.Properties()));
     public static final RegistryObject<Item> COPPERCOINS = ITEMS.register("coppercoins",
-            () -> new Item(new Item.Properties()));
+            () -> new FlippableCoin(new Item.Properties()));
     public static final RegistryObject<Item> SILVERCOINS = ITEMS.register("silvercoins",
-            () -> new Item(new Item.Properties()));
+            () -> new FlippableCoin(new Item.Properties()));
     public static final RegistryObject<Item> GOLDCOINS = ITEMS.register("goldcoins",
-            () -> new Item(new Item.Properties()));
+            () -> new FlippableCoin(new Item.Properties()));
     public static final RegistryObject<Item> PLATINUMCOINS = ITEMS.register("platinumcoins",
-            () -> new Item(new Item.Properties()));
+            () -> new FlippableCoin(new Item.Properties()));
 
 
     //Plates
