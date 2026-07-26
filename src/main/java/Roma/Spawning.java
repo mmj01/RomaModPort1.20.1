@@ -84,27 +84,7 @@ public class Spawning {
             MinecraftServer server = player.server;
             String name = player.getName().getString();
 
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:conqueror");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:vagrant");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:mythic");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:legendary");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:hero");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:fabled");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:godlike");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:god_of_healing");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:god_of_war");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:god_of_speed");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:legend_of_axes");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:legend_of_swords");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:master_of_swords");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:master_of_axes");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:legend_of_swords");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:legend_of_axes");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:soldior");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:the_one_above_all");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:the_honored_one");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:mining");
-            runServerCommand(server, "puffish_skills category lock "+ name+" puffish_skills:combat");
+
 
 
 

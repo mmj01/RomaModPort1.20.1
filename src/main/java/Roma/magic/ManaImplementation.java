@@ -4,8 +4,8 @@ import Roma.magic.config.ManaConfig;
 import net.minecraft.nbt.CompoundTag;
 
 public class ManaImplementation implements IMana {
-    private int mana;
-    private int maxMana;
+    private int maxMana = ManaConfig.getDefaultMaxMana();
+    private int mana = ManaConfig.getDefaultMaxMana();
 
     public ManaImplementation() {
         // Use the safe getter method instead of direct config access
@@ -15,17 +15,17 @@ public class ManaImplementation implements IMana {
 
     @Override
     public int getMana() {
-        return mana;
+        return this.mana;
     }
 
     @Override
     public int getMaxMana() {
-        return maxMana;
+        return this.maxMana;
     }
 
     @Override
     public void setMana(int mana) {
-        this.mana = Math.max(0, Math.min(mana, maxMana));
+        this.mana = Math.max(0, Math.min(mana, this.maxMana));
     }
 
     @Override
@@ -45,11 +45,8 @@ public class ManaImplementation implements IMana {
 
     @Override
     public void setMaxMana(int maxMana) {
-        this.maxMana = Math.max(1, maxMana);
-        // Adjust current mana if it exceeds new max
-        if (this.mana > this.maxMana) {
-            this.mana = this.maxMana;
-        }
+        this.maxMana = maxMana;
+
     }
 
     @Override

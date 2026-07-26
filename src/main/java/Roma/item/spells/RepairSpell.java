@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class RepairSpell extends Spell {
-    private float repairPercentage = 0.10f; // 100% repair (full heal)
+    private float repairPercentage = 0.15f; // 100% repair (full heal)
     private boolean repairAll = true; // Repair all items vs just held item
 
     public RepairSpell() {

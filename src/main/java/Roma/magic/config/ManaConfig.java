@@ -25,8 +25,8 @@ public class ManaConfig {
     public static final ForgeConfigSpec.ConfigValue<String> MANA_BAR_COLOR_HEX;
 
     // Cached values - only access these after config is loaded
-    private static int defaultMaxMana = 100; // fallback default
-    private static int manaRegenRate = 1;
+    private static int defaultMaxMana = 10000; // fallback default
+    private static int manaRegenRate = 1000;
     private static int manaRegenDelay = 20;
     private static boolean enableManaRegen = true;
     private static int regenIntervalTicks = 20;
@@ -42,11 +42,11 @@ public class ManaConfig {
 
         DEFAULT_MAX_MANA = BUILDER
                 .comment("Default maximum mana for players")
-                .defineInRange("defaultMaxMana", 100, 1, Integer.MAX_VALUE);
+                .defineInRange("defaultMaxMana", 10000, 1, 1000);
 
         MANA_REGEN_RATE = BUILDER
                 .comment("How much mana regenerates per regeneration tick")
-                .defineInRange("manaRegenRate", 1, 0, 100);
+                .defineInRange("manaRegenRate", 1000, 0, 1000);
 
         MANA_REGEN_DELAY = BUILDER
                 .comment("Delay in ticks before mana starts regenerating after use")
@@ -108,24 +108,26 @@ public class ManaConfig {
     }
 
     // Safe getter methods - these won't throw the config error
+    // Replace your existing getters in ManaConfig.java with these:
+
     public static int getDefaultMaxMana() {
-        return defaultMaxMana;
+        return DEFAULT_MAX_MANA.get();
     }
 
     public static int getManaRegenRate() {
-        return manaRegenRate;
+        return MANA_REGEN_RATE.get();
     }
 
     public static int getManaRegenDelay() {
-        return manaRegenDelay;
+        return MANA_REGEN_DELAY.get();
     }
 
     public static boolean isEnableManaRegen() {
-        return enableManaRegen;
+        return ENABLE_MANA_REGEN.get();
     }
 
     public static int getRegenIntervalTicks() {
-        return regenIntervalTicks;
+        return REGEN_INTERVAL_TICKS.get();
     }
 
     // HUD getter methods

@@ -41,14 +41,14 @@ public class EntitySpawnHandler {
     public static void trySpawnlvloneassassin(ServerLevel level) {
         for (ServerPlayer player : level.players()) {
             if (lvloneassassin(player)) {
-                if (level.random.nextFloat() < 0.03f) { // 5% chance per tick cycle
+                if (level.random.nextFloat() < 0.0004f) { // 5% chance per tick cycle
                     BlockPos targetPos = player.blockPosition().offset(
                             level.random.nextInt(20) - 10, 0, level.random.nextInt(20) - 10
                     );
                     BlockPos blockBelow = targetPos.below();
 
                     if (level.getBlockState(blockBelow).isSolidRender(level, blockBelow) &&
-                            level.isEmptyBlock(targetPos)) {
+                            level.isEmptyBlock(targetPos) && level.isEmptyBlock(targetPos.above())) {
 
                         var entity = Modentities.PERSIANASSASSIN.get().create(level);
                         if (entity != null) {
@@ -64,14 +64,14 @@ public class EntitySpawnHandler {
     public static void trySpawnlvltwoassassin(ServerLevel level) {
         for (ServerPlayer player : level.players()) {
             if (lvltwoassassin(player)) {
-                if (level.random.nextFloat() < 0.04f) { // 5% chance per tick cycle
+                if (level.random.nextFloat() < 0.0004f) { // about 2 min
                     BlockPos targetPos = player.blockPosition().offset(
                             level.random.nextInt(20) - 10, 0, level.random.nextInt(20) - 10
                     );
                     BlockPos blockBelow = targetPos.below();
 
                     if (level.getBlockState(blockBelow).isSolidRender(level, blockBelow) &&
-                            level.isEmptyBlock(targetPos)) {
+                            level.isEmptyBlock(targetPos) && level.isEmptyBlock(targetPos.above())) {
 
                         var entity = Modentities.PERSIANASSASSINLVLTWO.get().create(level);
                         if (entity != null) {
@@ -83,39 +83,18 @@ public class EntitySpawnHandler {
             }
         }
     }
-    public static void trySpawnlvltwoassassinalso(ServerLevel level) {
-        for (ServerPlayer player : level.players()) {
-            if (lvltwoassassinalso(player)) {
-                if (level.random.nextFloat() < 0.04f) { // 5% chance per tick cycle
-                    BlockPos targetPos = player.blockPosition().offset(
-                            level.random.nextInt(20) - 10, 0, level.random.nextInt(20) - 10
-                    );
-                    BlockPos blockBelow = targetPos.below();
 
-                    if (level.getBlockState(blockBelow).isSolidRender(level, blockBelow) &&
-                            level.isEmptyBlock(targetPos)) {
-
-                        var entity = Modentities.PERSIANASSASSINLVLTWO.get().create(level);
-                        if (entity != null) {
-                            entity.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, level.random.nextFloat() * 360F, 0);
-                            level.addFreshEntity(entity);
-                        }
-                    }
-                }
-            }
-        }
-    }
     public static void trySpawnlvlthreeassassin(ServerLevel level) {
         for (ServerPlayer player : level.players()) {
             if (lvlthreeassassin(player)) {
-                if (level.random.nextFloat() < 0.05f) { // 5% chance per tick cycle
+                if (level.random.nextFloat() < 0.0004f) { // 5% chance per tick cycle
                     BlockPos targetPos = player.blockPosition().offset(
                             level.random.nextInt(20) - 10, 0, level.random.nextInt(20) - 10
                     );
                     BlockPos blockBelow = targetPos.below();
 
                     if (level.getBlockState(blockBelow).isSolidRender(level, blockBelow) &&
-                            level.isEmptyBlock(targetPos)) {
+                            level.isEmptyBlock(targetPos) && level.isEmptyBlock(targetPos.above())) {
 
                         var entity = Modentities.PERSIANASSASSINLVLTHREE.get().create(level);
                         if (entity != null) {
@@ -130,14 +109,14 @@ public class EntitySpawnHandler {
     public static void trySpawnlvlfourassassin(ServerLevel level) {
         for (ServerPlayer player : level.players()) {
             if (lvlfourassassin(player)) {
-                if (level.random.nextFloat() < 0.07f) { // 5% chance per tick cycle
+                if (level.random.nextFloat() < 0.0004f) { // 5% chance per tick cycle
                     BlockPos targetPos = player.blockPosition().offset(
                             level.random.nextInt(20) - 10, 0, level.random.nextInt(20) - 10
                     );
                     BlockPos blockBelow = targetPos.below();
 
                     if (level.getBlockState(blockBelow).isSolidRender(level, blockBelow) &&
-                            level.isEmptyBlock(targetPos)) {
+                            level.isEmptyBlock(targetPos) && level.isEmptyBlock(targetPos.above())) {
 
                         var entity = Modentities.PERSIANASSASSINLVLFOUR.get().create(level);
                         if (entity != null) {
@@ -161,7 +140,6 @@ public class EntitySpawnHandler {
 
                 trySpawnlvloneassassin(level); // call our logic
                 trySpawnlvltwoassassin(level);
-                trySpawnlvltwoassassinalso(level);
                 trySpawnlvlthreeassassin(level);
                 trySpawnlvlfourassassin(level);
             }

@@ -31,6 +31,8 @@ public class Moditems {
             () -> new SpellScrollItem(new IceTrapSpell(),new Item.Properties()));
     public static final RegistryObject<Item> RETURNSPELL = ITEMS.register("returnspell",
             () -> new SpellScrollItem(new WaypointSpell(),new Item.Properties()));
+    public static final RegistryObject<Item> TRAVELSPELL = ITEMS.register("travelspell",
+            () -> new SpellScrollItem(new TravelSpell(),new Item.Properties()));
 
 
 

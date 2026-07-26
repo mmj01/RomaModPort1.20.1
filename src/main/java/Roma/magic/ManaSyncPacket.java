@@ -2,6 +2,8 @@ package Roma.magic;
 
 import Roma.magic.ManaCapability;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -29,7 +31,10 @@ public class ManaSyncPacket {
         NetworkEvent.Context context = contextSupplier.get();
 
         if (context.getDirection().getReceptionSide().isClient()) {
-            context.enqueueWork(() -> ClientHandler.handleManaSync(this));
+            context.enqueueWork(() -> {
+                // Safely runs ClientHandler without crashing dedicated servers
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHandler.handleManaSync(this));
+            });
         }
 
         context.setPacketHandled(true);

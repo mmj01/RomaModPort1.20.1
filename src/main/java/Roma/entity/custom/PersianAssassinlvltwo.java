@@ -123,7 +123,7 @@ public class PersianAssassinlvltwo extends Monster {
 
         // Only run on server side
         if (!this.level().isClientSide) {
-            Player nearest = this.level().getNearestPlayer(this, 40.0D); // check within 40 blocks
+            Player nearest = this.level().getNearestPlayer(this, 30.0D); // check within 40 blocks
 
             if (nearest != null && this.hasLineOfSight(nearest)) {
                 noPlayerVisibleTicks = 0; // player seen, reset timer
@@ -131,7 +131,7 @@ public class PersianAssassinlvltwo extends Monster {
                 noPlayerVisibleTicks++;
             }
 
-            if (noPlayerVisibleTicks > 9600) { // e.g. 600 ticks = 30 seconds
+            if (noPlayerVisibleTicks > 600) {
                 this.discard(); // despawn entity
             }
         }
@@ -155,7 +155,7 @@ public class PersianAssassinlvltwo extends Monster {
         this.goalSelector.addGoal(0, new FloatGoal(this));
 
         // Aggressive charge behavior (top priority)
-        this.goalSelector.addGoal(2, new ChargeatplayerGoal(this, 1.6D)); // Faster charge speed
+        this.goalSelector.addGoal(2, new TeleportGoal(this, 1.6D)); // Faster charge speed
 
         // Melee attack with reduced cooldown
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.4D, true) {
@@ -165,8 +165,7 @@ public class PersianAssassinlvltwo extends Monster {
             }
         });
 
-        // Extended reach custom attack (lower priority if it supplements melee)
-        this.goalSelector.addGoal(3, new CustomReachAttackGoal(this, 1.4D, false, 6.0F));
+
 
         // Lower-priority passive movement
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));

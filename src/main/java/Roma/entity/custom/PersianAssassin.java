@@ -37,6 +37,7 @@ public class PersianAssassin extends Monster {
         this.xpReward = 20;
         this.addEffect(new MobEffectInstance(MobEffects.JUMP, 999999999,2,false,false));
         this.setPersistenceRequired();
+        /*
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
         this.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Moditems.COPPERCHESTPLATE.get()));
         this.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Moditems.COPPERLEGGINGS.get()));
@@ -47,6 +48,8 @@ public class PersianAssassin extends Monster {
         this.setDropChance(EquipmentSlot.LEGS, 0.0F);
         this.setDropChance(EquipmentSlot.HEAD, 0.0F);
         this.setDropChance(EquipmentSlot.FEET, 0.0F);
+
+         */
 
 
     }
@@ -141,18 +144,17 @@ public class PersianAssassin extends Monster {
         this.goalSelector.addGoal(0, new FloatGoal(this));
 
         // Aggressive charge behavior (top priority)
-        this.goalSelector.addGoal(2, new ChargeatplayerGoal(this, 1.6D)); // Faster charge speed
+        this.goalSelector.addGoal(2, new TeleportGoal(this, 1.6D)); // Faster charge speed
 
         // Melee attack with reduced cooldown
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.4D, true) {
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.7D, true) {
             @Override
             protected int getAttackInterval() {
                 return 5; // Very fast attacks
             }
         });
 
-        // Extended reach custom attack (lower priority if it supplements melee)
-        this.goalSelector.addGoal(3, new CustomReachAttackGoal(this, 1.4D, false, 6.0F));
+
 
         // Lower-priority passive movement
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));

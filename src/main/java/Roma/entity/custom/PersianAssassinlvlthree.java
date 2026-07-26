@@ -162,18 +162,17 @@ public class PersianAssassinlvlthree extends Monster {
         this.goalSelector.addGoal(0, new FloatGoal(this));
 
         // Aggressive charge behavior (top priority)
-        this.goalSelector.addGoal(2, new ChargeatplayerGoal(this, 1.6D)); // Faster charge speed
+        this.goalSelector.addGoal(2, new TeleportGoal(this, 1.6D));
 
         // Melee attack with reduced cooldown
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.4D, true) {
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.8D, true) {
             @Override
             protected int getAttackInterval() {
-                return 5; // Very fast attacks
+                return 2; // Very fast attacks
             }
         });
 
-        // Extended reach custom attack (lower priority if it supplements melee)
-        this.goalSelector.addGoal(3, new CustomReachAttackGoal(this, 1.4D, false, 6.0F));
+
 
         // Lower-priority passive movement
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));

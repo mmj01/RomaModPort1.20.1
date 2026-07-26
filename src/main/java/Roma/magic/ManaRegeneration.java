@@ -32,7 +32,7 @@ public class ManaRegeneration {
                         // Use config delay (convert ticks to game time)
                         if (currentTime - lastUse >= ManaConfig.getManaRegenDelay()) {
                             int oldMana = mana.getMana();
-                            mana.regenerateMana(ManaConfig.getManaRegenRate());
+                            mana.addMana(ManaConfig.getManaRegenRate());
 
                             // Sync to client if mana changed
                             if (mana.getMana() != oldMana && player instanceof ServerPlayer serverPlayer) {
@@ -56,5 +56,11 @@ public class ManaRegeneration {
     // Clean up tracking when player leaves
     public static void cleanupPlayer(java.util.UUID playerUUID) {
         lastManaUse.remove(playerUUID);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLogout(net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent event) {
+        // Automatically remove the player's UUID from the RAM map when they leave
+        cleanupPlayer(event.getEntity().getUUID());
     }
 }

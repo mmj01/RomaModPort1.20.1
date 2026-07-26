@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 public class IceTrapSpell extends Spell {
-    private int radius = 12;
-    private int iceDuration = 200;
-    private int slownessDuration = 60;
+    private int radius = 16;
+    private int iceDuration = 400;
+    private int slownessDuration = 600;
 
     private static final Map<BlockPos, IceData> trackedIceBlocks = new HashMap<>();
 
