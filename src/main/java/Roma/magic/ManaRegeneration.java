@@ -19,20 +19,27 @@ public class ManaRegeneration {
         if (event.phase == TickEvent.Phase.END && !event.player.level().isClientSide) {
             Player player = event.player;
 
-            // Check if regeneration is enabled and if it's time to regenerate
-            if (ManaConfig.isEnableManaRegen() &&
-                    player.tickCount % ManaConfig.getRegenIntervalTicks() == 0) {
+            // 1. Only check if global regeneration is enabled here (DO NOT check modulo timer here!)
+            if (!ManaConfig.isEnableManaRegen()) return;
 
-                player.getCapability(ManaCapability.MANA_CAPABILITY).ifPresent(mana -> {
-                    if (mana.getMana() < mana.getMaxMana()) {
-                        // Check if enough time has passed since last mana use
-                        long currentTime = player.level().getGameTime();
-                        long lastUse = lastManaUse.getOrDefault(player.getUUID(), 0L);
+            player.getCapability(ManaCapability.MANA_CAPABILITY).ifPresent(mana -> {
+                if (mana.getMana() < mana.getMaxMana()) {
+                    // Check if enough time has passed since last mana use
+                    long currentTime = player.level().getGameTime();
+                    long lastUse = lastManaUse.getOrDefault(player.getUUID(), 0L);
 
-                        // Use config delay (convert ticks to game time)
-                        if (currentTime - lastUse >= ManaConfig.getManaRegenDelay()) {
+                    // 2. Use the static config for the initial post-spell cooldown delay after combat
+                    if (currentTime - lastUse >= ManaConfig.getManaRegenDelay()) {
+
+                        // 3. *** THE FIX: Check the player's upgraded pulse speed HERE ***
+                        // Ensures pulseInterval never drops below 1 to prevent division by zero
+                        int pulseInterval = Math.max(1, mana.getManaRegenTime());
+
+                        // If pulseInterval is 20, mana restores once per second.
+                        // When cookies reduce pulseInterval to 1, mana restores EVERY SINGLE TICK!
+                        if (player.tickCount % pulseInterval == 0) {
                             int oldMana = mana.getMana();
-                            mana.addMana(ManaConfig.getManaRegenRate());
+                            mana.addMana(mana.getManaRegenRate());
 
                             // Sync to client if mana changed
                             if (mana.getMana() != oldMana && player instanceof ServerPlayer serverPlayer) {
@@ -43,8 +50,8 @@ public class ManaRegeneration {
                             }
                         }
                     }
-                });
-            }
+                }
+            });
         }
     }
 

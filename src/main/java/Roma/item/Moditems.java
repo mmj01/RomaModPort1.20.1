@@ -4,6 +4,8 @@ import Roma.block.ModBlocks;
 import Roma.item.custom.*;
 import Roma.item.spells.*;
 import Roma.roma;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -33,6 +35,12 @@ public class Moditems {
             () -> new SpellScrollItem(new WaypointSpell(),new Item.Properties()));
     public static final RegistryObject<Item> TRAVELSPELL = ITEMS.register("travelspell",
             () -> new SpellScrollItem(new TravelSpell(),new Item.Properties()));
+    public static final RegistryObject<Item> MANACOOKIE = ITEMS.register("manacookie",
+            () -> new ManaCookie(new Item.Properties().stacksTo(128).fireResistant()));
+    public static final RegistryObject<Item> MANAREGENCOOKIE = ITEMS.register("manaregencookie",
+            () -> new ManaRegenCookie(new Item.Properties().stacksTo(128).fireResistant()));
+    public static final RegistryObject<Item> MANARESETCOOKIE = ITEMS.register("manaresetcookie",
+            () -> new ManaResetCookie(new Item.Properties().stacksTo(128).fireResistant()));
 
 
 

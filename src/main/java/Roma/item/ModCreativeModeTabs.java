@@ -337,6 +337,11 @@ public class ModCreativeModeTabs {
                         output.accept(Moditems.RETURNSPELL.get());
                         output.accept(Moditems.TRAVELSPELL.get());
 
+                        // --- MAGIC COOKIES ---
+                        output.accept(Moditems.MANACOOKIE.get());
+                        output.accept(Moditems.MANARESETCOOKIE.get());
+                        output.accept(Moditems.MANAREGENCOOKIE.get());
+
                         // --- SKILLS ---
                         output.accept(Moditems.JUMPSKILL.get());
                         output.accept(Moditems.REGENSKILL.get());

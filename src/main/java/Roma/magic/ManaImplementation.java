@@ -6,6 +6,8 @@ import net.minecraft.nbt.CompoundTag;
 public class ManaImplementation implements IMana {
     private int maxMana = ManaConfig.getDefaultMaxMana();
     private int mana = ManaConfig.getDefaultMaxMana();
+    private int manaRegenRate = ManaConfig.getManaRegenRate();
+    private int manaRegenTime = ManaConfig.getManaRegenDelay();
 
     public ManaImplementation() {
         // Use the safe getter method instead of direct config access
@@ -51,7 +53,7 @@ public class ManaImplementation implements IMana {
 
     @Override
     public void regenerateMana(int amount) {
-        addMana(amount);
+        this.addMana(amount);
     }
 
     @Override
@@ -59,10 +61,34 @@ public class ManaImplementation implements IMana {
         return maxMana > 0 ? (float) mana / maxMana : 0f;
     }
 
+    @Override
+    public int getManaRegenRate() {
+        return this.manaRegenRate;
+    }
+
+    @Override
+    public void setManaRegenRate(int rate) {
+
+        this.manaRegenRate = Math.max(1, rate);
+
+    }
+
+    @Override
+    public int getManaRegenTime() {
+        return this.manaRegenTime;
+    }
+
+    @Override
+    public void setManaRegenTime(int time) {
+        this.manaRegenTime = Math.max(1,time);
+    }
+
     // NBT serialization methods
     public void saveNBTData(CompoundTag nbt) {
         nbt.putInt("mana", mana);
         nbt.putInt("maxMana", maxMana);
+        nbt.putInt("manaRegenRate", manaRegenRate);
+        nbt.putInt("manaRegenTime", manaRegenTime);
     }
 
     public void loadNBTData(CompoundTag nbt) {
@@ -74,6 +100,18 @@ public class ManaImplementation implements IMana {
             maxMana = ManaConfig.getDefaultMaxMana();
         }
 
+        if (nbt.contains("manaRegenRate")) {
+            manaRegenRate = nbt.getInt("manaRegenRate");
+        } else {
+            manaRegenRate = ManaConfig.getManaRegenRate();
+        }
+
+        if (nbt.contains("manaRegenTime")) {
+            manaRegenTime = nbt.getInt("manaRegenTime");
+        } else {
+            manaRegenTime = ManaConfig.getManaRegenDelay();
+        }
+
         // Ensure mana doesn't exceed maxMana
         if (mana > maxMana) {
             mana = maxMana;
@@ -83,5 +121,7 @@ public class ManaImplementation implements IMana {
     public void copyFrom(ManaImplementation source) {
         this.mana = source.mana;
         this.maxMana = source.maxMana;
+        this.manaRegenRate = source.manaRegenRate;
+        this.manaRegenTime = source.manaRegenTime;
     }
 }

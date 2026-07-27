@@ -117,18 +117,14 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
 
-
-
-
 }
 
+
+
+
+
 dependencies {
-
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-
-
-
 
 
 }

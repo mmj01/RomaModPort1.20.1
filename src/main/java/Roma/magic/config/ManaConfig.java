@@ -8,6 +8,27 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 @Mod.EventBusSubscriber(modid = "rma", bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ManaConfig {
 
+    @SubscribeEvent
+    public static void onReload(final ModConfigEvent.Reloading event) {
+        // When the .toml file changes, immediately refresh the cached variables in memory!
+        defaultMaxMana = DEFAULT_MAX_MANA.get();
+        manaRegenRate = MANA_REGEN_RATE.get();
+        manaRegenDelay = MANA_REGEN_DELAY.get();
+        enableManaRegen = ENABLE_MANA_REGEN.get();
+        regenIntervalTicks = REGEN_INTERVAL_TICKS.get();
+
+        showManaHUD = SHOW_MANA_HUD.get();
+        hudOffsetX = HUD_OFFSET_X.get();
+        hudOffsetY = HUD_OFFSET_Y.get();
+
+        try {
+            String colorHex = MANA_BAR_COLOR_HEX.get();
+            manaBarColor = 0xFF000000 | Integer.parseInt(colorHex, 16);
+        } catch (NumberFormatException e) {
+            manaBarColor = 0xFF3366FF;
+        }
+    }
+
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
@@ -25,9 +46,9 @@ public class ManaConfig {
     public static final ForgeConfigSpec.ConfigValue<String> MANA_BAR_COLOR_HEX;
 
     // Cached values - only access these after config is loaded
-    private static int defaultMaxMana = 10000; // fallback default
-    private static int manaRegenRate = 1000;
-    private static int manaRegenDelay = 20;
+    private static int defaultMaxMana = 100; // fallback default
+    private static int manaRegenRate = 1;
+    private static int manaRegenDelay = 40;
     private static boolean enableManaRegen = true;
     private static int regenIntervalTicks = 20;
 
@@ -42,15 +63,15 @@ public class ManaConfig {
 
         DEFAULT_MAX_MANA = BUILDER
                 .comment("Default maximum mana for players")
-                .defineInRange("defaultMaxMana", 10000, 1, 1000);
+                .defineInRange("defaultMaxMana", 100, 1, 100000000);
 
         MANA_REGEN_RATE = BUILDER
                 .comment("How much mana regenerates per regeneration tick")
-                .defineInRange("manaRegenRate", 1000, 0, 1000);
+                .defineInRange("manaRegenRate", 1, 0, 100000000);
 
         MANA_REGEN_DELAY = BUILDER
                 .comment("Delay in ticks before mana starts regenerating after use")
-                .defineInRange("manaRegenDelay", 20, 0, 200);
+                .defineInRange("manaRegenDelay", 20, 0, 2000000);
 
         ENABLE_MANA_REGEN = BUILDER
                 .comment("Whether mana regeneration is enabled")
@@ -58,7 +79,7 @@ public class ManaConfig {
 
         REGEN_INTERVAL_TICKS = BUILDER
                 .comment("How often (in ticks) mana regeneration occurs")
-                .defineInRange("regenIntervalTicks", 20, 1, 200);
+                .defineInRange("regenIntervalTicks", 20, 1, 2000000);
 
         BUILDER.pop();
 
@@ -117,6 +138,7 @@ public class ManaConfig {
     public static int getManaRegenRate() {
         return MANA_REGEN_RATE.get();
     }
+
 
     public static int getManaRegenDelay() {
         return MANA_REGEN_DELAY.get();

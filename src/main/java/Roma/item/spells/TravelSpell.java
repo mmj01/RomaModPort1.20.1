@@ -37,7 +37,11 @@ public class TravelSpell extends Spell {
                 Vec3 lookDir = player.getViewVector(1.0F);
                 Vec3 eyePos = player.getEyePosition();
 
+
+
                 ThrownEnderpearl pearl = new ThrownEnderpearl(level, player);
+
+                pearl.getPersistentData().putBoolean("is_travel_spell", true);
 
                 Vec3 spawnPos = eyePos.add(lookDir.normalize().scale(0.5D));
                 pearl.setPos(spawnPos.x, spawnPos.y, spawnPos.z);

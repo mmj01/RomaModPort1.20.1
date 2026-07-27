@@ -10,4 +10,9 @@ public interface IMana {
     void setMaxMana(int maxMana);
     void regenerateMana(int amount);
     float getManaPercentage();
+    int getManaRegenRate();
+    void setManaRegenRate(int rate);
+    int getManaRegenTime();
+    void setManaRegenTime(int time);
+
 }
