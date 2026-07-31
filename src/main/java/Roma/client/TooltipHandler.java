@@ -1,9 +1,8 @@
-package Roma.Client;
+package Roma.client;
 
 import Roma.item.Moditems;
 import Roma.roma;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderTooltipEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

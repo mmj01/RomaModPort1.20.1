@@ -1,11 +1,13 @@
-// Ice Trap Spell - Traps nearby creatures in solid ice blocks that disappear after 10 seconds
 package Roma.item.spells;
 
+import Roma.menu.skillmenu.SkillUtil;
+import Roma.menu.stats.ModStats;
 import Roma.magic.SpellUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -26,6 +28,7 @@ public class IceTrapSpell extends Spell {
     private int radius = 16;
     private int iceDuration = 400;
     private int slownessDuration = 600;
+
 
     private static final Map<BlockPos, IceData> trackedIceBlocks = new HashMap<>();
 
@@ -51,23 +54,24 @@ public class IceTrapSpell extends Spell {
             return false;
         }
 
-        if (!canCast(player)) {
-            if (!hasSufficientMana(player)) {
-                int currentMana = SpellUtil.getPlayerMana(player);
-                player.sendSystemMessage(Component.literal("§cNot enough mana! Need " + manaCost + ", have " + currentMana));
-                return false;
-            }
-
-            if (isOnCooldown(player)) {
-                int remaining = getCooldownFromPlayer(player, this);
-                player.sendSystemMessage(Component.literal("§cSpell on cooldown! " + (remaining / 20) + " seconds remaining"));
-                return false;
-            }
-
+        // FIX: Replaced undefined canCast() with standard checks
+        if (isOnCooldown(player)) {
+            int remaining = getCooldownFromPlayer(player, this);
+            player.sendSystemMessage(Component.literal("§cSpell on cooldown! " + (remaining / 20) + " seconds remaining"));
             return false;
         }
 
-        consumeMana(player);
+        if (!SpellUtil.tryCastSpell(player, manaCost)) {
+            int currentMana = SpellUtil.getPlayerMana(player);
+            player.sendSystemMessage(Component.literal("§cNot enough mana! Need " + manaCost + ", have " + currentMana));
+            return false;
+        }
+
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+            // Awards XP equal to the mana spent!
+            serverPlayer.awardStat(ModStats.MAGIC_USED.get(), this.manaCost);
+            SkillUtil.syncMagicMana(serverPlayer);
+        }
 
         try {
             BlockPos playerPos = player.blockPosition();
@@ -107,7 +111,7 @@ public class IceTrapSpell extends Spell {
 
         int trapped = 0;
         for (LivingEntity entity : nearbyEntities) {
-            if (trapCreatureInIce(serverLevel, entity)) {
+            if (trapCreatureInIce(serverLevel, entity, caster)) {
                 trapped++;
             }
         }
@@ -115,7 +119,7 @@ public class IceTrapSpell extends Spell {
         return trapped;
     }
 
-    private boolean trapCreatureInIce(ServerLevel level, LivingEntity entity) {
+    private boolean trapCreatureInIce(ServerLevel level, LivingEntity entity, Player caster) {
         BlockPos entityPos = entity.blockPosition();
         boolean anyIceCreated = false;
 
@@ -154,6 +158,12 @@ public class IceTrapSpell extends Spell {
         }
 
         if (anyIceCreated) {
+            // Calculate final damage using base spell damage + player's bonus magic damage stat from capability
+            int bonusDamage = SpellUtil.getPlayerMagicDamage(caster);
+
+            // Deal the magic damage to the trapped creature, attributing the attack to the player
+            entity.hurt(level.damageSources().indirectMagic(caster, caster), (float) bonusDamage);
+
             entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, iceDuration + 40, 10));
             entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, iceDuration, 2));
             entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, iceDuration, 3));
@@ -316,8 +326,8 @@ public class IceTrapSpell extends Spell {
     protected void consumeMana(Player player) {
         try {
             SpellUtil.tryCastSpell(player, manaCost);
+            player.awardStat(ModStats.MAGIC_USED.get(), manaCost);
         } catch (Exception e) {
-            // Silently handle error
         }
     }
 
@@ -326,7 +336,6 @@ public class IceTrapSpell extends Spell {
         try {
             setCooldownForPlayer(player, this, cooldown);
         } catch (Exception e) {
-            // Silently handle error
         }
     }
 

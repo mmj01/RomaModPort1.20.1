@@ -52,6 +52,15 @@ public class SpellUtil {
     }
 
     /**
+     * Gets the player's magic damage
+     */
+    public static int getPlayerMagicDamage(Player player) {
+        return player.getCapability(ManaCapability.MANA_CAPABILITY)
+                .map(IMana::getMagicDamage)
+                .orElse(0);
+    }
+
+    /**
      * Checks if player has enough mana for a spell
      */
     public static boolean hasEnoughMana(Player player, int manaCost) {
@@ -102,6 +111,10 @@ public class SpellUtil {
             player.getCapability(ManaCapability.MANA_CAPABILITY).ifPresent(mana -> {
                 NetworkHandler.sendToPlayer(
                         new ManaSyncPacket(mana.getMana(), mana.getMaxMana()),
+                        serverPlayer
+                );
+                NetworkHandler.sendToPlayer(
+                        new MagicDamageSyncPacket(mana.getMagicDamage()),
                         serverPlayer
                 );
             });

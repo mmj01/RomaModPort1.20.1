@@ -1,6 +1,8 @@
 // Waypoint Spell - Save current location and teleport back to it
 package Roma.item.spells;
 
+import Roma.menu.skillmenu.SkillUtil;
+import Roma.menu.stats.ModStats;
 import Roma.magic.SpellUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -85,6 +87,11 @@ public class WaypointSpell extends Spell {
 
             player.sendSystemMessage(Component.literal("§a⚓ Waypoint set at your current location!"));
             applyCooldown(player);
+            if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                // Awards XP equal to the mana spent!
+                serverPlayer.awardStat(ModStats.MAGIC_USED.get(), this.manaCost);
+                SkillUtil.syncMagicMana(serverPlayer);
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();

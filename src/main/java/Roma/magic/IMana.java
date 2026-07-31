@@ -14,5 +14,8 @@ public interface IMana {
     void setManaRegenRate(int rate);
     int getManaRegenTime();
     void setManaRegenTime(int time);
+    int getMagicDamage();
+    void setMagicDamage(int damage);
+    void setSkillBonusMaxMana(int bonus);
 
 }

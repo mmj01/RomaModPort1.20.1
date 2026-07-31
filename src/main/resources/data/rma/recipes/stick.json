@@ -5,9 +5,14 @@
     "X"
   ],
   "key": {
-    "X": {
-      "item": "rma:cypressplanks"
-    }
+    "X": [
+      {
+        "item": "rma:cypressplanks"
+      },
+      {
+        "item": "rma:pineplanks"
+      }
+    ]
   },
   "result": {
     "item": "minecraft:stick",

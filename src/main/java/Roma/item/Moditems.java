@@ -41,6 +41,8 @@ public class Moditems {
             () -> new ManaRegenCookie(new Item.Properties().stacksTo(128).fireResistant()));
     public static final RegistryObject<Item> MANARESETCOOKIE = ITEMS.register("manaresetcookie",
             () -> new ManaResetCookie(new Item.Properties().stacksTo(128).fireResistant()));
+    public static final RegistryObject<Item> MAGICDAMAAGEPIE = ITEMS.register("magicdamagepie",
+            () -> new MagicDamagePie(new Item.Properties().stacksTo(128).fireResistant()));
 
 
 

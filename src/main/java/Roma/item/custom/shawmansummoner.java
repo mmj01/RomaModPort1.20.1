@@ -1,7 +1,7 @@
 package Roma.item.custom;
 
 import Roma.entity.Modentities;
-import Roma.entity.custom.PersianShawman;
+import Roma.entity.custom.boss.PersianShawman;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;

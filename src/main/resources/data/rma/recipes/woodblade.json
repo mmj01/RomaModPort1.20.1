@@ -6,10 +6,12 @@
     "X  "
   ],
   "key": {
-    "X": {
+    "X": [{
       "item": "rma:cypressplanks"
+    },{
+      "item": "rma:pinelanks"
     }
-  },
+    ]},
   "result": {
     "count": 1,
     "item": "rma:woodblade"

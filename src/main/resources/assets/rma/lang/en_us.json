@@ -231,14 +231,16 @@
   "item.rma.hsteelleggings": "High-Qual Steel Leggings",
   "item.rma.hsteelboots": "High-Qual Steel Boots",
   "item.rma.hsteelhelmet": "High-Qual Steel Helmet",
-  "item.rma.pinelog": "Pine Log",
+  "block.rma.pinelog": "Pine Log",
   "item.rma.pinesapling": "Pine Sapling",
-  "item.rma.pineleaves": "Pine Leaves",
-  "item.rma.pinewood": "Pine Wood",
-  "item.rma.pineplanks": "Pine Planks",
+  "block.rma.pineleaves": "Pine Leaves",
+  "block.rma.pinewood": "Pine Wood",
+  "block.rma.pineplanks": "Pine Planks",
   "item.rma.travelspell": "Travel Spell",
   "item.rma.manacookie": "Mana Cookie",
   "item.rma.manaregencookie": "Mana Regen Cookie",
   "item.rma.iceprisonspell": "Ice Trap Spell",
-  "item.rma.manaresetcookie": "Mana Reset Cookie"
+  "item.rma.manaresetcookie": "Mana Reset Cookie",
+  "item.rma.magicdamagepie": "Magic Damage Pie"
+
 }

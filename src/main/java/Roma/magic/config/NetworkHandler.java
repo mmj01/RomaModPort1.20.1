@@ -1,5 +1,6 @@
 package Roma.magic.config;
 
+import Roma.magic.MagicDamageSyncPacket;
 import Roma.magic.ManaSyncPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,10 +21,18 @@ public class NetworkHandler {
     private static int packetId = 0;
 
     public static void register() {
+        // ID 0: Fast mana bar updates
         INSTANCE.messageBuilder(ManaSyncPacket.class, packetId++)
                 .encoder(ManaSyncPacket::toBytes)
                 .decoder(ManaSyncPacket::new)
                 .consumerMainThread(ManaSyncPacket::handle)
+                .add();
+
+        // ID 1: Occasional stat/damage updates
+        INSTANCE.messageBuilder(MagicDamageSyncPacket.class, packetId++)
+                .encoder(MagicDamageSyncPacket::toBytes)
+                .decoder(MagicDamageSyncPacket::new)
+                .consumerMainThread(MagicDamageSyncPacket::handle)
                 .add();
     }
 

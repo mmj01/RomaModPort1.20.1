@@ -1,11 +1,7 @@
 package Roma.magic;
 
-import Roma.magic.ManaCapability;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
-
 import java.util.function.Supplier;
 
 public class ManaSyncPacket {
@@ -27,24 +23,14 @@ public class ManaSyncPacket {
         buf.writeInt(this.maxMana);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
+    public int getMana() { return mana; }
+    public int getMaxMana() { return maxMana; }
 
-        if (context.getDirection().getReceptionSide().isClient()) {
-            context.enqueueWork(() -> {
-                // Safely runs ClientHandler without crashing dedicated servers
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHandler.handleManaSync(this));
-            });
-        }
-
+    public void handle(Supplier<NetworkEvent.Context> supplier) {
+        NetworkEvent.Context context = supplier.get();
+        context.enqueueWork(() -> {
+            ClientHandler.handleManaSync(this);
+        });
         context.setPacketHandled(true);
-    }
-
-    public int getMana() {
-        return mana;
-    }
-
-    public int getMaxMana() {
-        return maxMana;
     }
 }

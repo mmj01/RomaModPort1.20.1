@@ -16,6 +16,7 @@ public class ManaConfig {
         manaRegenDelay = MANA_REGEN_DELAY.get();
         enableManaRegen = ENABLE_MANA_REGEN.get();
         regenIntervalTicks = REGEN_INTERVAL_TICKS.get();
+        magicDamage=MAGIC_DAMAGE.get();
 
         showManaHUD = SHOW_MANA_HUD.get();
         hudOffsetX = HUD_OFFSET_X.get();
@@ -38,6 +39,7 @@ public class ManaConfig {
     public static final ForgeConfigSpec.IntValue MANA_REGEN_DELAY;
     public static final ForgeConfigSpec.BooleanValue ENABLE_MANA_REGEN;
     public static final ForgeConfigSpec.IntValue REGEN_INTERVAL_TICKS;
+    public static final ForgeConfigSpec.IntValue MAGIC_DAMAGE;
 
     // HUD Config values
     public static final ForgeConfigSpec.BooleanValue SHOW_MANA_HUD;
@@ -51,6 +53,7 @@ public class ManaConfig {
     private static int manaRegenDelay = 40;
     private static boolean enableManaRegen = true;
     private static int regenIntervalTicks = 20;
+    private static int magicDamage=10;
 
     // HUD cached values
     private static boolean showManaHUD = true;
@@ -80,6 +83,10 @@ public class ManaConfig {
         REGEN_INTERVAL_TICKS = BUILDER
                 .comment("How often (in ticks) mana regeneration occurs")
                 .defineInRange("regenIntervalTicks", 20, 1, 2000000);
+
+        MAGIC_DAMAGE = BUILDER
+                .comment("How much damage is applied to enemies when damaging spells occur")
+                .defineInRange("magicDamage", 10, 10, 2000000);
 
         BUILDER.pop();
 
@@ -113,6 +120,7 @@ public class ManaConfig {
         manaRegenDelay = MANA_REGEN_DELAY.get();
         enableManaRegen = ENABLE_MANA_REGEN.get();
         regenIntervalTicks = REGEN_INTERVAL_TICKS.get();
+        magicDamage= MAGIC_DAMAGE.get();
 
         // Cache HUD values
         showManaHUD = SHOW_MANA_HUD.get();
@@ -131,25 +139,28 @@ public class ManaConfig {
     // Safe getter methods - these won't throw the config error
     // Replace your existing getters in ManaConfig.java with these:
 
-    public static int getDefaultMaxMana() {
-        return DEFAULT_MAX_MANA.get();
+    public static int getDefaultMaxMana() {return defaultMaxMana;
+    }
+
+    public static int getMagicDamage() {
+        return magicDamage;
     }
 
     public static int getManaRegenRate() {
-        return MANA_REGEN_RATE.get();
+        return manaRegenRate;
     }
 
 
     public static int getManaRegenDelay() {
-        return MANA_REGEN_DELAY.get();
+        return manaRegenDelay;
     }
 
     public static boolean isEnableManaRegen() {
-        return ENABLE_MANA_REGEN.get();
+        return enableManaRegen;
     }
 
     public static int getRegenIntervalTicks() {
-        return REGEN_INTERVAL_TICKS.get();
+        return regenIntervalTicks;
     }
 
     // HUD getter methods

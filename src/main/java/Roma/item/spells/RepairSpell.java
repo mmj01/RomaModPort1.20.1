@@ -1,11 +1,14 @@
 // Repair Spell - Heals all damaged items in inventory
 package Roma.item.spells;
 
+import Roma.menu.skillmenu.SkillUtil;
+import Roma.menu.stats.ModStats;
 import Roma.magic.SpellUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -49,6 +52,11 @@ public class RepairSpell extends Spell {
             }
 
             applyCooldown(player);
+            if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                // Awards XP equal to the mana spent!
+                serverPlayer.awardStat(ModStats.MAGIC_USED.get(), this.manaCost);
+                SkillUtil.syncMagicMana(serverPlayer);
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();

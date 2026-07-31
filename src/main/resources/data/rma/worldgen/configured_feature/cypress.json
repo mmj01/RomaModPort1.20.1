@@ -25,22 +25,45 @@
       }
     },
     "foliage_placer": {
-      "type": "minecraft:fancy_foliage_placer",
-      "radius": 2,
+      "type": "minecraft:cherry_foliage_placer",
+      "radius": 5,
       "offset": 0,
-      "height": 3
+      "height": 5,
+      "wide_bottom_layer_hole_chance": 0.25,
+      "corner_hole_chance": 0.25,
+      "hanging_leaves_chance": 0.2,
+      "hanging_leaves_extension_chance": 0.35
     },
     "trunk_placer": {
-      "type": "minecraft:forking_trunk_placer",
-      "base_height": 6,
-      "height_rand_a": 3,
-      "height_rand_b": 2
+      "type": "minecraft:cherry_trunk_placer",
+      "base_height": 11,
+      "height_rand_a": 6,
+      "height_rand_b": 6,
+      "branch_count": 3,
+      "branch_horizontal_length": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 4,
+          "max_inclusive": 8
+        }
+      },
+      "branch_start_offset_from_top": {
+        "min_inclusive": -6,
+        "max_inclusive": -2
+      },
+      "branch_end_offset_from_top": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": -2,
+          "max_inclusive": 0
+        }
+      }
     },
     "minimum_size": {
       "type": "minecraft:two_layers_feature_size",
       "limit": 2,
       "lower_size": 2,
-      "upper_size": 3
+      "upper_size": 6
     },
     "ignore_vines": true,
     "decorators": [

@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 // CRITICAL FIX: Added Dist.CLIENT to make this client-only
 @Mod.EventBusSubscriber(modid = "rma", bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ManaHUD {
-    private static final int BAR_WIDTH = 82;
+    private static final int BAR_WIDTH = 100;
     private static final int BAR_HEIGHT = 5;
     private static final int BAR_BACKGROUND = 0xFF222222;
     private static final int BAR_BORDER = 0xFF000000;
@@ -55,6 +55,10 @@ public class ManaHUD {
                 String manaText = mana.getMana() + "/" + mana.getMaxMana();
                 int textWidth = mc.font.width(manaText);
                 graphics.drawString(mc.font, manaText, x + BAR_WIDTH / 2 - textWidth / 2, y - 10, 0xFFFFFF);
+
+                //Draw Magic Damage Number
+                String damageText = mana.getMagicDamage()+"§kA";
+                graphics.drawString(mc.font, damageText, (x + BAR_WIDTH / 2 - textWidth / 2)+60, y - 10, 0x880808);
             });
         }
     }

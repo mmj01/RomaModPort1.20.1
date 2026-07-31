@@ -1,4 +1,4 @@
-package Roma.entity.custom.bosshelper;
+package Roma.entity.custom.boss;
 
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;

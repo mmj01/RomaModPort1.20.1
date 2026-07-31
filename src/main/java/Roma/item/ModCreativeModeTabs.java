@@ -290,6 +290,12 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.CYPRESSSAPLING.get());
                         output.accept(ModBlocks.CYPRESSLEAVES.get());
 
+                        output.accept(ModBlocks.PINELOG.get());
+                        output.accept(ModBlocks.PINEWOOD.get());
+                        output.accept(ModBlocks.PINEPLANKS.get());
+                        output.accept(ModBlocks.PINESAPLING.get());
+                        output.accept(ModBlocks.PINELEAVES.get());
+
                         // --- STONES & BUILDING BLOCKS ---
                         output.accept(ModBlocks.DIRT.get());
                         output.accept(ModBlocks.SAND.get());

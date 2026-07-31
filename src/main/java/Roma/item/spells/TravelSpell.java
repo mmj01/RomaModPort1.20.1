@@ -1,10 +1,13 @@
 package Roma.item.spells;
 
+import Roma.menu.skillmenu.SkillUtil;
+import Roma.menu.stats.ModStats;
 import Roma.magic.SpellUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -33,7 +36,7 @@ public class TravelSpell extends Spell {
         }
 
         try {
-            if (!level.isClientSide && level instanceof ServerLevel serverLevel) {
+            if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
                 Vec3 lookDir = player.getViewVector(1.0F);
                 Vec3 eyePos = player.getEyePosition();
 
@@ -57,6 +60,11 @@ public class TravelSpell extends Spell {
 
             consumeMana(player);
             applyCooldown(player);
+            if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                // Awards XP equal to the mana spent!
+                serverPlayer.awardStat(ModStats.MAGIC_USED.get(), this.manaCost);
+                SkillUtil.syncMagicMana(serverPlayer);
+            }
             return true;
 
         } catch (Exception e) {

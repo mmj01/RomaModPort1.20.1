@@ -1,6 +1,7 @@
 package Roma.entity;
 
 import Roma.entity.custom.*;
+import Roma.entity.custom.boss.PersianShawman;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;

@@ -1,8 +1,9 @@
 package Roma;
 
+import Roma.menu.stats.ModStats;
 import Roma.block.ModBlocks;
 import Roma.enchantment.ModEnchantments;
-import Roma.entity.custom.AssassinlvoneRenderer;
+import Roma.entity.custom.renderer.AssassinlvoneRenderer;
 import Roma.entity.Modentities;
 import Roma.item.ModCreativeModeTabs;
 import Roma.item.Moditems;
@@ -17,7 +18,6 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -52,6 +52,7 @@ public class roma
         ModCreativeModeTabs.register(modEventBus);
         CustomAttribute.register(modEventBus);
         ModEnchantments.register(modEventBus);
+        ModStats.register(modEventBus);
 
         Modentities.ENTITIES.register(modEventBus);
         modEventBus.register(Modentities.class);
@@ -71,6 +72,7 @@ public class roma
         // Register mana networking in common setup to ensure proper side handling
         event.enqueueWork(() -> {
             NetworkHandler.register();
+            ModStats.setupStats();
         });
     }
 

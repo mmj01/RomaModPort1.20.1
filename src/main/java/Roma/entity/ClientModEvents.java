@@ -1,13 +1,14 @@
-package Roma.entity.custom;
+package Roma.entity;
 
-import Roma.entity.Modentities;
+import Roma.entity.custom.renderer.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = "rma", value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Renderingeventhandler {
+public class ClientModEvents {
+
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(Modentities.PERSIANASSASSIN.get(), AssassinlvoneRenderer::new);
@@ -15,6 +16,5 @@ public class Renderingeventhandler {
         event.registerEntityRenderer(Modentities.PERSIANASSASSINLVLTHREE.get(), AssassinlvthreeRenderer::new);
         event.registerEntityRenderer(Modentities.PERSIANASSASSINLVLFOUR.get(), AssassinlvfourRenderer::new);
         event.registerEntityRenderer(Modentities.PERSIANSHAWMAN.get(), PersianShawmanRenderer::new);
-
     }
 }

@@ -38,17 +38,17 @@
   "features": [
     [],
     [
-      "minecraft:lake_lava_underground"
-    ],
-    [
-      "minecraft:fossil_lower"
+      "minecraft:lake_lava_underground",
+      "rma:small_lake_placed"
     ],
     [],
     [],
     [],
+    [],
     [
-      "rma:pine_placed",
-      "rma:cypress_placed"
+      "rma:cypress_placed",
+      "rma:pine_placed"
+
     ],
     [
       "minecraft:flower_default"

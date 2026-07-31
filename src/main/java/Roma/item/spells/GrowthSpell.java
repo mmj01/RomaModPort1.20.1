@@ -1,11 +1,17 @@
-// Growth Spell - Grows crops around the player to full maturity
 package Roma.item.spells;
 
+import Roma.menu.skillmenu.SkillUtil;
+import Roma.menu.stats.ModStats;
+import Roma.magic.ManaCapability;
+import Roma.magic.ManaRegeneration;
+import Roma.magic.ManaSyncPacket;
 import Roma.magic.SpellUtil;
+import Roma.magic.config.NetworkHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -14,11 +20,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 public class GrowthSpell extends Spell {
-    private int radius = 6; // Growth radius around player
-    private int boneMealEffect = 3; // Number of bone meal applications per crop
+    private int radius = 6;
+    private int boneMealEffect = 3;
 
     public GrowthSpell() {
-        super("Nature's Blessing", 100, 0, SpellType.UTILITY); // Low mana cost, moderate cooldown
+        super("Nature's Blessing", 10, 0, SpellType.UTILITY);
     }
 
     @Override
@@ -29,49 +35,85 @@ public class GrowthSpell extends Spell {
             return false;
         }
 
-        if (!SpellUtil.tryCastSpell(player, manaCost)) {
+        if (!SpellUtil.hasEnoughMana(player, 10)) {
             int currentMana = SpellUtil.getPlayerMana(player);
-            player.sendSystemMessage(Component.literal("§cNot enough mana! Need " + manaCost + ", have " + currentMana));
+            player.sendSystemMessage(Component.literal("§cNot enough mana! Need at least 10, have " + currentMana));
             return false;
         }
 
         try {
             BlockPos playerPos = player.blockPosition();
-            int cropsGrown = growCropsAroundPlayer(level, playerPos);
+            int cropsGrown = growCropsAroundPlayer(level, player, playerPos);
 
-            // Add visual effects
-            if (level instanceof ServerLevel serverLevel) {
-                addVisualEffects(serverLevel, playerPos);
-            }
-
-            // Give feedback to player
             if (cropsGrown > 0) {
+                if (level instanceof ServerLevel serverLevel) {
+                    addVisualEffects(serverLevel, playerPos);
+                }
                 player.sendSystemMessage(Component.literal("§a✦ Grew " + cropsGrown + " crops to maturity!"));
+                applyCooldown(player);
+
+                // ==========================================
+                // FIX: Safely check and cast to ServerPlayer
+                // ==========================================
+                if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                    // Awards XP equal to the mana spent!
+                    serverPlayer.awardStat(ModStats.MAGIC_USED.get(), this.manaCost);
+                    //FOR TESTING
+                    serverPlayer.awardStat(ModStats.MAGIC_USED.get(), 1000000);
+                    serverPlayer.awardStat(ModStats.XP_MINED.get(), 1000000);
+                    serverPlayer.awardStat(ModStats.CUSTOM_ITEMS_CRAFTED.get(), 1000000);
+                    serverPlayer.awardStat(ModStats.CUSTOM_PLANTS_BROKEN.get(), 1000000);
+
+
+
+                    SkillUtil.syncMagicMana(serverPlayer);
+                }
+
+                return true;
             } else {
                 player.sendSystemMessage(Component.literal("§eNo crops found nearby to grow."));
+                return false;
             }
-
-            applyCooldown(player);
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    private int growCropsAroundPlayer(Level level, BlockPos centerPos) {
-        int cropsGrown = 0;
+    public static void consumeMana(Player player, int amount) {
+        player.getCapability(ManaCapability.MANA_CAPABILITY).ifPresent(mana -> {
+            mana.consumeMana(amount);
+            ManaRegeneration.onManaUsed(player);
+            // Inside GrowthSpell.consumeMana():
 
-        // Search in a radius around the player
+// FIX: Added parentheses to isClientSide()
+            if (!player.level().isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                NetworkHandler.sendToPlayer(
+                        new ManaSyncPacket(mana.getMana(), mana.getMaxMana()),
+                        serverPlayer
+                );
+            }
+        });
+    }
+
+    private int growCropsAroundPlayer(Level level, Player player, BlockPos centerPos) {
+        int cropsGrown = 0;
+        int manaPerCrop = 10;
+
         for (int x = -radius; x <= radius; x++) {
-            for (int y = -2; y <= 2; y++) { // Check a few blocks up and down
+            for (int y = -2; y <= 2; y++) {
                 for (int z = -radius; z <= radius; z++) {
                     BlockPos pos = centerPos.offset(x, y, z);
                     BlockState state = level.getBlockState(pos);
                     Block block = state.getBlock();
 
                     if (isCrop(block)) {
+                        if (!SpellUtil.hasEnoughMana(player, manaPerCrop)) {
+                            return cropsGrown;
+                        }
+
                         if (growCrop(level, pos, state, block)) {
+                            consumeMana(player, manaPerCrop);
                             cropsGrown++;
                         }
                     }
@@ -83,7 +125,6 @@ public class GrowthSpell extends Spell {
     }
 
     private boolean isCrop(Block block) {
-        // Check if it's a vanilla crop type
         if (block instanceof CropBlock ||
                 block instanceof StemBlock ||
                 block instanceof AttachedStemBlock ||
@@ -94,8 +135,7 @@ public class GrowthSpell extends Spell {
                 block instanceof CaveVinesBlock) {
             return true;
         }
-    //FIX HERE
-        // Check for your custom crops by registry name
+
         String blockName = block.getDescriptionId();
         return blockName.contains("rma:") && (
                 blockName.contains("crop") ||
@@ -109,32 +149,23 @@ public class GrowthSpell extends Spell {
         );
     }
 
-    // Method to explicitly check for your custom crop blocks
     private boolean isCustomCrop(Block block) {
-        // Option 1: Check by specific blocks (if you have references)
-        // return block == ModBlocks.CUSTOM_WHEAT.get() ||
-        //        block == ModBlocks.CUSTOM_CORN.get();
-
-        // Option 2: Check if block implements BonemealableBlock (recommended)
         return block instanceof BonemealableBlock;
     }
 
     private boolean growCrop(Level level, BlockPos pos, BlockState state, Block block) {
         boolean grewSomething = false;
 
-        // Apply bone meal effect multiple times for guaranteed growth
         for (int i = 0; i < boneMealEffect; i++) {
             if (block instanceof BonemealableBlock bonemealer) {
                 if (bonemealer.isValidBonemealTarget(level, pos, state, level.isClientSide)) {
                     if (bonemealer.isBonemealSuccess(level, level.random, pos, state)) {
                         bonemealer.performBonemeal((ServerLevel) level, level.random, pos, state);
                         grewSomething = true;
-                        // Update state for next iteration
                         state = level.getBlockState(pos);
                     }
                 }
             }
-            // Special handling for crops that use age properties
             else if (hasCropAgeProperty(state)) {
                 if (growCropByAge(level, pos, state)) {
                     grewSomething = true;
@@ -147,7 +178,6 @@ public class GrowthSpell extends Spell {
     }
 
     private boolean hasCropAgeProperty(BlockState state) {
-        // Check vanilla age properties
         if (state.hasProperty(CropBlock.AGE) ||
                 state.hasProperty(NetherWartBlock.AGE) ||
                 state.hasProperty(CocoaBlock.AGE) ||
@@ -155,12 +185,10 @@ public class GrowthSpell extends Spell {
             return true;
         }
 
-        // Check for custom age properties
         return hasCustomAgeProperty(state);
     }
 
     private boolean hasCustomAgeProperty(BlockState state) {
-        // Check if any integer property could be an age property
         return state.getProperties().stream()
                 .anyMatch(property -> property instanceof IntegerProperty &&
                         (property.getName().equals("age") ||
@@ -172,7 +200,6 @@ public class GrowthSpell extends Spell {
         IntegerProperty ageProperty = null;
         int maxAge = 0;
 
-        // Check vanilla age properties first
         if (state.hasProperty(CropBlock.AGE)) {
             ageProperty = CropBlock.AGE;
             maxAge = 7;
@@ -186,7 +213,6 @@ public class GrowthSpell extends Spell {
             ageProperty = SweetBerryBushBlock.AGE;
             maxAge = 3;
         } else {
-            // Handle custom age properties
             for (var property : state.getProperties()) {
                 if (property instanceof IntegerProperty intProp &&
                         (property.getName().equals("age") ||
@@ -196,7 +222,7 @@ public class GrowthSpell extends Spell {
                     maxAge = intProp.getPossibleValues().stream()
                             .mapToInt(Integer::intValue)
                             .max()
-                            .orElse(7);  // Default to 7 if can't determine
+                            .orElse(7);
                     break;
                 }
             }
@@ -205,7 +231,6 @@ public class GrowthSpell extends Spell {
         if (ageProperty != null) {
             int currentAge = state.getValue(ageProperty);
             if (currentAge < maxAge) {
-                // Set to max age for instant growth
                 BlockState newState = state.setValue(ageProperty, maxAge);
                 level.setBlock(pos, newState, 2);
                 return true;
@@ -216,13 +241,11 @@ public class GrowthSpell extends Spell {
     }
 
     private void addVisualEffects(ServerLevel level, BlockPos centerPos) {
-        // Nature-themed particles around the player
         for (int i = 0; i < 30; i++) {
             double x = centerPos.getX() + (Math.random() - 0.5) * (radius * 2);
             double y = centerPos.getY() + Math.random() * 3;
             double z = centerPos.getZ() + (Math.random() - 0.5) * (radius * 2);
 
-            // Mix of nature particles
             if (Math.random() < 0.7) {
                 level.sendParticles(ParticleTypes.HAPPY_VILLAGER, x, y, z, 2, 0.3, 0.3, 0.3, 0.1);
             } else {
@@ -230,7 +253,6 @@ public class GrowthSpell extends Spell {
             }
         }
 
-        // Upward flowing particles around player
         for (int i = 0; i < 15; i++) {
             double x = centerPos.getX() + (Math.random() - 0.5) * 2;
             double y = centerPos.getY();
@@ -240,10 +262,9 @@ public class GrowthSpell extends Spell {
         }
     }
 
-    // Standard spell methods...
     @Override
     protected boolean hasSufficientMana(Player player) {
-        return SpellUtil.hasEnoughMana(player, manaCost);
+        return SpellUtil.hasEnoughMana(player, 10);
     }
 
     @Override
@@ -253,7 +274,7 @@ public class GrowthSpell extends Spell {
 
     @Override
     protected void consumeMana(Player player) {
-        // Handled by SpellUtil.tryCastSpell()
+
     }
 
     @Override

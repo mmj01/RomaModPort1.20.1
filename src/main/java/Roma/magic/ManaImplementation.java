@@ -4,15 +4,43 @@ import Roma.magic.config.ManaConfig;
 import net.minecraft.nbt.CompoundTag;
 
 public class ManaImplementation implements IMana {
-    private int maxMana = ManaConfig.getDefaultMaxMana();
-    private int mana = ManaConfig.getDefaultMaxMana();
-    private int manaRegenRate = ManaConfig.getManaRegenRate();
-    private int manaRegenTime = ManaConfig.getManaRegenDelay();
+
+    // Track the BONUSES earned from items separately from the config
+    private int bonusMaxMana = 0;
+    private int bonusManaRegenRate = 0;
+    private int bonusManaRegenTime = 0; // Usually negative (since cookies reduce delay)
+    private int bonusMagicDamage = 0;
+
+    private int skillBonusMaxMana = 0;
+
+    // Current mana is still tracked normally
+    private int mana;
 
     public ManaImplementation() {
-        // Use the safe getter method instead of direct config access
-        this.maxMana = ManaConfig.getDefaultMaxMana();
-        this.mana = this.maxMana;
+        this.mana = getMaxMana();
+    }
+
+    // --- GETTERS (Base Config + Player's Earned Bonus) ---
+
+    @Override
+    public int getMaxMana() {
+        return ManaConfig.getDefaultMaxMana() + this.bonusMaxMana;
+    }
+
+    @Override
+    public int getManaRegenRate() {
+        return Math.max(1, ManaConfig.getManaRegenRate() + this.bonusManaRegenRate);
+    }
+
+    @Override
+    public int getManaRegenTime() {
+        // Delay cannot drop below 1 tick
+        return Math.max(1, ManaConfig.getManaRegenDelay() + this.bonusManaRegenTime);
+    }
+
+    @Override
+    public int getMagicDamage() {
+        return Math.max(1, ManaConfig.getMagicDamage() + this.bonusMagicDamage);
     }
 
     @Override
@@ -20,15 +48,37 @@ public class ManaImplementation implements IMana {
         return this.mana;
     }
 
+    // --- SETTERS (Calculate the difference to find the new Bonus) ---
+
     @Override
-    public int getMaxMana() {
-        return this.maxMana;
+    public void setMaxMana(int newMaxMana) {
+        // If a cookie sets max mana to 120, and base is 100, the bonus becomes 20.
+        this.bonusMaxMana = newMaxMana - ManaConfig.getDefaultMaxMana();
+        // Clamp current mana so it doesn't exceed the new max
+        this.mana = Math.min(this.mana, getMaxMana());
+    }
+
+    @Override
+    public void setManaRegenRate(int newRate) {
+        this.bonusManaRegenRate = newRate - ManaConfig.getManaRegenRate();
+    }
+
+    @Override
+    public void setManaRegenTime(int newTime) {
+        this.bonusManaRegenTime = newTime - ManaConfig.getManaRegenDelay();
+    }
+
+    @Override
+    public void setMagicDamage(int newDamage) {
+        this.bonusMagicDamage = newDamage - ManaConfig.getMagicDamage();
     }
 
     @Override
     public void setMana(int mana) {
-        this.mana = Math.max(0, Math.min(mana, this.maxMana));
+        this.mana = Math.max(0, Math.min(mana, getMaxMana()));
     }
+
+    // --- MANA UTILITIES ---
 
     @Override
     public void addMana(int amount) {
@@ -46,82 +96,71 @@ public class ManaImplementation implements IMana {
     }
 
     @Override
-    public void setMaxMana(int maxMana) {
-        this.maxMana = maxMana;
-
-    }
-
-    @Override
     public void regenerateMana(int amount) {
         this.addMana(amount);
     }
 
     @Override
     public float getManaPercentage() {
-        return maxMana > 0 ? (float) mana / maxMana : 0f;
+        int max = getMaxMana();
+        return max > 0 ? (float) this.mana / max : 0f;
     }
 
+    // NEW SETTER FOR THE SKILL BONUS
     @Override
-    public int getManaRegenRate() {
-        return this.manaRegenRate;
+    public void setSkillBonusMaxMana(int bonus) {
+        this.skillBonusMaxMana = bonus;
     }
 
-    @Override
-    public void setManaRegenRate(int rate) {
+    // --- NBT SAVE / LOAD (Only saving the bonuses!) ---
 
-        this.manaRegenRate = Math.max(1, rate);
-
-    }
-
-    @Override
-    public int getManaRegenTime() {
-        return this.manaRegenTime;
-    }
-
-    @Override
-    public void setManaRegenTime(int time) {
-        this.manaRegenTime = Math.max(1,time);
-    }
-
-    // NBT serialization methods
     public void saveNBTData(CompoundTag nbt) {
-        nbt.putInt("mana", mana);
-        nbt.putInt("maxMana", maxMana);
-        nbt.putInt("manaRegenRate", manaRegenRate);
-        nbt.putInt("manaRegenTime", manaRegenTime);
+        nbt.putInt("mana", this.mana);
+        nbt.putInt("bonusMaxMana", this.bonusMaxMana);
+        nbt.putInt("bonusManaRegenRate", this.bonusManaRegenRate);
+        nbt.putInt("bonusManaRegenTime", this.bonusManaRegenTime);
+        nbt.putInt("bonusMagicDamage", this.bonusMagicDamage);
     }
 
     public void loadNBTData(CompoundTag nbt) {
-        mana = nbt.getInt("mana");
-        maxMana = nbt.getInt("maxMana");
-
-        // Ensure maxMana has a reasonable default if not found
-        if (maxMana <= 0) {
-            maxMana = ManaConfig.getDefaultMaxMana();
+        if (nbt.contains("bonusMaxMana")) {
+            this.bonusMaxMana = nbt.getInt("bonusMaxMana");
+        }
+        if (nbt.contains("bonusManaRegenRate")) {
+            this.bonusManaRegenRate = nbt.getInt("bonusManaRegenRate");
+        }
+        if (nbt.contains("bonusManaRegenTime")) {
+            this.bonusManaRegenTime = nbt.getInt("bonusManaRegenTime");
+        }
+        if (nbt.contains("bonusMagicDamage")) {
+            this.bonusMagicDamage = nbt.getInt("bonusMagicDamage");
         }
 
-        if (nbt.contains("manaRegenRate")) {
-            manaRegenRate = nbt.getInt("manaRegenRate");
+        // Load current mana last, falling back to max if it's missing
+        if (nbt.contains("mana")) {
+            this.mana = nbt.getInt("mana");
         } else {
-            manaRegenRate = ManaConfig.getManaRegenRate();
+            this.mana = getMaxMana();
         }
 
-        if (nbt.contains("manaRegenTime")) {
-            manaRegenTime = nbt.getInt("manaRegenTime");
-        } else {
-            manaRegenTime = ManaConfig.getManaRegenDelay();
-        }
-
-        // Ensure mana doesn't exceed maxMana
-        if (mana > maxMana) {
-            mana = maxMana;
+        // Final safety clamp
+        if (this.mana > getMaxMana()) {
+            this.mana = getMaxMana();
         }
     }
 
+    // --- CLONING (Death/Dimension Travel) ---
+
     public void copyFrom(ManaImplementation source) {
+        // Only copy the bonuses over.
+        // We do NOT copy the base values, because getters already read the live config!
+        this.bonusMaxMana = source.bonusMaxMana;
+        this.bonusManaRegenRate = source.bonusManaRegenRate;
+        this.bonusManaRegenTime = source.bonusManaRegenTime;
+        this.bonusMagicDamage = source.bonusMagicDamage;
+
+        // Decide if players respawn with full mana or the mana they died with:
+        // (Currently, this copies the exact mana they had when they died)
         this.mana = source.mana;
-        this.maxMana = source.maxMana;
-        this.manaRegenRate = source.manaRegenRate;
-        this.manaRegenTime = source.manaRegenTime;
     }
 }

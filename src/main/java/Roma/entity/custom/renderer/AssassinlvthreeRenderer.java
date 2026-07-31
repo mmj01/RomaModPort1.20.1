@@ -1,6 +1,7 @@
-package Roma.entity.custom;
+package Roma.entity.custom.renderer;
 
 import Roma.entity.Modentities;
+import Roma.entity.custom.PersianAssassinlvlthree;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -10,8 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class AssassinlvfourRenderer extends MobRenderer<PersianAssassinlvlfour, HumanoidModel<PersianAssassinlvlfour>> {
-    public AssassinlvfourRenderer(EntityRendererProvider.Context context) {
+public class AssassinlvthreeRenderer extends MobRenderer<PersianAssassinlvlthree, HumanoidModel<PersianAssassinlvlthree>> {
+    public AssassinlvthreeRenderer(EntityRendererProvider.Context context) {
         super(context, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER)), 0.5f);
         this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
 
@@ -19,12 +20,11 @@ public class AssassinlvfourRenderer extends MobRenderer<PersianAssassinlvlfour, 
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(Modentities.PERSIANASSASSINLVLFOUR.get(), AssassinlvfourRenderer::new);
-
+        event.registerEntityRenderer(Modentities.PERSIANASSASSINLVLTHREE.get(), AssassinlvthreeRenderer::new);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(PersianAssassinlvlfour entity) {
-        return ResourceLocation.fromNamespaceAndPath("rma", "textures/entity/persianassassinlvlfour.png");
+    public ResourceLocation getTextureLocation(PersianAssassinlvlthree entity) {
+        return ResourceLocation.fromNamespaceAndPath("rma", "textures/entity/persianassassinlvlthree.png");
     }
 }

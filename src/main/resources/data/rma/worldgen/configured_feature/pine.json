@@ -19,22 +19,29 @@
       "state": {
         "Name": "rma:pineleaves",
         "Properties": {
-          "persistent": "true",
+          "persistent": "false",
           "distance": "7"
         }
       }
     },
     "foliage_placer": {
-      "type": "minecraft:blob_foliage_placer",
-      "radius": 6,
+      "type": "minecraft:mega_pine_foliage_placer",
+      "radius": 0,
       "offset": 0,
-      "height": 2
+      "height": 4,
+      "crown_height": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 13,
+          "max_inclusive": 17
+        }
+      }
     },
     "trunk_placer": {
-      "type": "minecraft:mega_jungle_trunk_placer",
-      "base_height": 12,
-      "height_rand_a": 4,
-      "height_rand_b": 2
+      "type": "minecraft:giant_trunk_placer",
+      "base_height": 13,
+      "height_rand_a": 2,
+      "height_rand_b": 14
     },
     "minimum_size": {
       "type": "minecraft:two_layers_feature_size",

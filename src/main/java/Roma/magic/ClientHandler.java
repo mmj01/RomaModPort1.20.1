@@ -15,7 +15,17 @@ public class ClientHandler {
             player.getCapability(ManaCapability.MANA_CAPABILITY).ifPresent(mana -> {
                 mana.setMaxMana(packet.getMaxMana());
                 mana.setMana(packet.getMana());
+            });
+        }
+    }
 
+    // NEW: Handle incoming magic damage updates independently
+    @OnlyIn(Dist.CLIENT)
+    public static void handleMagicDamageSync(MagicDamageSyncPacket packet) {
+        Player player = Minecraft.getInstance().player;
+        if (player != null) {
+            player.getCapability(ManaCapability.MANA_CAPABILITY).ifPresent(mana -> {
+                mana.setMagicDamage(packet.getMagicDamage());
             });
         }
     }

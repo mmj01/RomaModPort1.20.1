@@ -5,7 +5,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -21,10 +20,8 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.UUID;
-
 
 public class ReachItem extends SwordItem {
 
@@ -33,19 +30,14 @@ public class ReachItem extends SwordItem {
     private static final UUID CATTACK_REACH_UUID     = UUID.fromString("d4a1c3b2-5f6e-4a7b-8c9d-0e1f2a3b4c5d");
     private static final UUID CATTACK_KNOCKBACK_UUID = UUID.fromString("d4a1c3b2-5f6e-4a7b-8c9d-9e1f2a3b4c5d");
 
-
     private double reach;
     private double knockBack;
     private double damage;
     private double attackSpd;
 
-
-
-    // Lazily build the attribute map once per item instance
     private final Supplier<Multimap<Attribute, AttributeModifier>> attributeMap = Suppliers.memoize(() -> {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 
-        // Vanilla stats
         builder.put(Attributes.ATTACK_DAMAGE,
                 new AttributeModifier(CATTACK_DAMAGE_UUID, "citem_attack_damage", damage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED,
@@ -53,7 +45,6 @@ public class ReachItem extends SwordItem {
         builder.put(Attributes.ATTACK_KNOCKBACK,
                 new AttributeModifier(CATTACK_KNOCKBACK_UUID, "citem_attack_knockback", knockBack, AttributeModifier.Operation.ADDITION));
 
-        // Forge reach attribute
         Attribute reachAttr = ForgeMod.BLOCK_REACH.get();
         builder.put(
                 reachAttr,
@@ -63,10 +54,11 @@ public class ReachItem extends SwordItem {
         return builder.build();
     });
 
-
     public ReachItem(Tier tier, int damage, float attackSpd, double reach, double knockBack, Properties props) {
-        super(tier, damage, attackSpd, new Properties());
-        this.damage    = damage;
+        // FIX 1: Pass the actual properties instead of a blank new Properties()
+        super(tier, damage, attackSpd, props);
+        // FIX 2: Add the Tier's damage bonus to your custom damage variable!
+        this.damage    = damage + tier.getAttackDamageBonus();
         this.attackSpd = attackSpd;
         this.reach     = reach;
         this.knockBack = knockBack;

@@ -6,9 +6,12 @@
     "# R"
   ],
   "key": {
-    "X": {
+    "X": [{
       "item": "rma:cypressplanks"
-    },
+    },{
+      "item": "rma:pinelanks"
+    }
+    ],
     "R": {
       "item": "rma:woodaxe"
     },

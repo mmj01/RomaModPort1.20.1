@@ -1,5 +1,9 @@
 package Roma;
 
+import Roma.magic.MagicDamageSyncPacket;
+import Roma.magic.ManaCapability;
+import Roma.magic.ManaSyncPacket;
+import Roma.magic.config.NetworkHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -100,6 +104,9 @@ public class Spawning {
         if (!player.level().dimension().equals(CUSTOM_DIM)) {
             player.kill(); // kill the player immediately
         }
+
+
+
     }
 
     private static void runServerCommand(MinecraftServer server, String command) {

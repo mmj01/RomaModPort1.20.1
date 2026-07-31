@@ -3,15 +3,12 @@ package Roma.block.custom;
 import Roma.block.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -25,6 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
+import net.minecraft.core.particles.DustParticleOptions;
+import org.joml.Vector3f;
 
 public class ModGrass extends GrassBlock {
     public ModGrass(BlockBehaviour.Properties properties) {
@@ -43,46 +42,30 @@ public class ModGrass extends GrassBlock {
 
                 if (!pLevel.isClientSide) {
                     itemInHand.hurtAndBreak(1, pPlayer, (player) -> player.broadcastBreakEvent(pHand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND));
-                    // ✅ correct for 1.20+
                 }
 
                 return InteractionResult.sidedSuccess(pLevel.isClientSide);
-
             }
         }
 
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit); // fallback to default
-    }
-
-
-    @Override
-    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, RandomSource pRandom) {
-        super.animateTick(pState, pLevel, pPos, pRandom);
-
-
-        if (pRandom.nextInt(5) == 0) {
-            double x = pPos.getX() + 0.5D;
-            double y = pPos.getY() + 1.0D;
-            double z = pPos.getZ() + 0.5D;
-
-            pLevel.addParticle(ParticleTypes.COMPOSTER, x, y, z, 0.0D, 0.0D, 0.0D);
-        }
+        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 
     @Override
     public boolean addLandingEffects(BlockState state1, ServerLevel level, BlockPos pos, BlockState state2, LivingEntity entity, int numberOfParticles) {
-        // Send particles from the server to all tracking clients in the area
-        level.sendParticles(
-                ParticleTypes.COMPOSTER,
-                pos.getX() + 0.5D,
-                pos.getY() + 1.0D,
-                pos.getZ() + 0.5D,
-                numberOfParticles, // Amount of particles based on fall distance
-                0.2D, 0.1D, 0.2D,  // X, Y, Z spread offset
-                0.05D              // Particle speed
-        );
+        if (entity instanceof Player) {
+            double radius = 0.6D;
 
-        // Return TRUE to cancel vanilla block-break landing dust, or FALSE to spawn both
+
+            // 1. Draw the outer boundary circle
+            for (int i = 0; i < 60; i++) {
+                double angle = i * Math.PI * 2 / 60;
+                double x = pos.getX() + 0.5D + Math.cos(angle) * radius;
+                double y = pos.getY() + 1.0D;
+                double z = pos.getZ() + 0.5D + Math.sin(angle) * radius;
+                level.sendParticles(ParticleTypes.FALLING_LAVA, x, y, z, 1, 0.0D, 0.0D, 0.0D, 0.0D);
+            }
+        }
         return true;
     }
 

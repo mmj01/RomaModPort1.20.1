@@ -109,6 +109,7 @@ public class HourDays {
     public static void onLevelLoad(LevelEvent.Load event) {
         if (!(event.getLevel() instanceof ServerLevel level)) return;
 
+
         if (level.dimension().equals(CUSTOM_DIM)) {
             level.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(true, level.getServer());
 
