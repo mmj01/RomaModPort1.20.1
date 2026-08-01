@@ -50,69 +50,6 @@ public class QualityEffectsEvents {
     }
 
     // ==========================================
-    // 2. COMBAT: WEAPONS, AXES, HOES, & ARMOR
-    // ==========================================
-    @SubscribeEvent
-    public static void onCombatDamage(LivingDamageEvent event) {
-
-        // A. ATTACKER BONUS (Swords, Axes, Hoes, etc.)
-        if (event.getSource().getEntity() instanceof Player attacker) {
-            ItemStack weapon = attacker.getMainHandItem();
-
-            if (weapon.hasTag() && weapon.getTag().contains("Quality")) {
-                String quality = weapon.getTag().getString("Quality");
-                float multiplier = getQualityMultiplier(quality);
-
-                // Multiply outgoing damage
-                event.setAmount(event.getAmount() * multiplier);
-            }
-        }
-
-        // B. DEFENDER BONUS (Armor Damage Reduction)
-        if (event.getEntity() instanceof Player victim) {
-            float totalArmorMultiplier = 0f;
-            int armorPiecesWorn = 0;
-
-            // Loop through their 4 armor slots
-            for (ItemStack armor : victim.getArmorSlots()) {
-                if (!armor.isEmpty()) {
-                    armorPiecesWorn++;
-                    if (armor.hasTag() && armor.getTag().contains("Quality")) {
-                        totalArmorMultiplier += getQualityMultiplier(armor.getTag().getString("Quality"));
-                    } else {
-                        totalArmorMultiplier += 1.0f; // Standard quality default
-                    }
-                }
-            }
-
-            // Calculate the average quality of the armor they are wearing
-            if (armorPiecesWorn > 0) {
-                float avgMultiplier = totalArmorMultiplier / armorPiecesWorn;
-
-                // Divide the incoming damage by the armor's average multiplier
-                // (e.g., Full Masterwork = 4.0 average. 20 damage becomes 5 damage!)
-                event.setAmount(event.getAmount() / avgMultiplier);
-            }
-        }
-    }
-
-    // ==========================================
-    // 3. MINING: PICKAXES, AXES, SHOVELS, HOES
-    // ==========================================
-    @SubscribeEvent
-    public static void onMineBlock(PlayerEvent.BreakSpeed event) {
-        Player player = event.getEntity();
-        ItemStack tool = player.getMainHandItem();
-
-        if (tool.hasTag() && tool.getTag().contains("Quality")) {
-            String quality = tool.getTag().getString("Quality");
-            float multiplier = getQualityMultiplier(quality);
-
-            event.setNewSpeed(event.getOriginalSpeed() * multiplier);
-        }
-    }
-
-    // ==========================================
     // 4. FISHING: ROD LOOT MULTIPLIER
     // ==========================================
     @SubscribeEvent

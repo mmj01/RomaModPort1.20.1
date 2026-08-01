@@ -1,5 +1,6 @@
 package Roma.menu.skillmenu;
 
+import Roma.item.custom.ModPickaxeItem;
 import Roma.menu.stats.ModStats;
 import Roma.util.ModTags;
 import com.google.common.collect.Multimap;
@@ -16,9 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -46,10 +45,10 @@ public class StatTrackEvents {
     private static final Map<UUID, Long> batchTickCache = new ConcurrentHashMap<>();
 
     private enum QualityTier {
-        MASTERWORK("Masterwork", 995, 20, 4, "\u00a76Incredible! You crafted a Masterwork item!", ChatFormatting.GOLD, 4, 1.50f),
-        FLAWLESS("Flawless", 800, 15, 3, "\u00a7dGreat job! You crafted a Flawless item.", ChatFormatting.LIGHT_PURPLE, 3, 1.30f),
-        EXCEPTIONAL("Exceptional", 450, 10, 2, "\u00a7aWell done! You crafted an Exceptional item.", ChatFormatting.GREEN, 2, 1.15f),
-        ADVANCED("Advanced", 250, 5, 1, "\u00a7eNice! You crafted an Advanced item.", ChatFormatting.YELLOW, 1, 1.05f),
+        MASTERWORK("Masterwork", 995, 20, 4, "\u00a76Incredible! You crafted a Masterwork item!", ChatFormatting.GOLD, 4, 4.00f),
+        FLAWLESS("Flawless", 800, 15, 3, "\u00a7dGreat job! You crafted a Flawless item.", ChatFormatting.DARK_PURPLE, 3, 2.80f),
+        EXCEPTIONAL("Exceptional", 450, 10, 2, "\u00a7aWell done! You crafted an Exceptional item.", ChatFormatting.DARK_BLUE, 2, 1.75f),
+        ADVANCED("Advanced", 250, 5, 1, "\u00a7eNice! You crafted an Advanced item.", ChatFormatting.DARK_GREEN, 1, 1.20f),
         STANDARD("Standard", Integer.MIN_VALUE, 0, 0, null, ChatFormatting.GRAY, 0, 1.00f);
 
         final String tagName;
@@ -222,7 +221,9 @@ public class StatTrackEvents {
                     String path = attrId.toString();
                     if (path.equals("minecraft:generic.attack_damage") ||
                             path.equals("minecraft:generic.armor") ||
-                            path.equals("minecraft:generic.armor_toughness")) {
+                            path.equals("minecraft:generic.armor_toughness") ||
+                            path.equals("minecraft:generic.mining_speed"))
+                    {
                         amount *= tier.statMultiplier;
                     }
                 }
@@ -237,6 +238,31 @@ public class StatTrackEvents {
         item.getOrCreateTag().putInt("HideFlags", hideFlags | 2);
     }
 
+    public static float getUtilityMultiplier(ItemStack stack) {
+        if (stack.hasTag() && stack.getTag().contains("Quality")) {
+            return switch (stack.getTag().getString("Quality")) {
+                case "Masterwork" -> 1.50f;  // +25% boost to Speed/Durability
+                case "Flawless" -> 1.20f;    // +15%
+                case "Exceptional" -> 1.10f; // +10%
+                case "Advanced" -> 1.05f;    // +5%
+                default -> 1.0f;
+            };
+        }
+        return 1.0f;
+    }
+
+    // --- APPLY MINING SPEED IN-GAME ---
+    @SubscribeEvent
+    public static void onMineBlock(PlayerEvent.BreakSpeed event) {
+        ItemStack tool = event.getEntity().getMainHandItem();
+        float utilityMult = getUtilityMultiplier(tool);
+
+        // Multiply their breaking speed by the smaller utility factor
+        if (utilityMult > 1.0f) {
+            event.setNewSpeed(event.getOriginalSpeed() * utilityMult);
+        }
+    }
+
     /**
      * DYNAMIC LORE RENDERER
      * Runs natively without writing fragile NBT JSON blocks!
@@ -244,46 +270,102 @@ public class StatTrackEvents {
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {
         ItemStack item = event.getItemStack();
+        Player player = event.getEntity();
 
-        // Only add our lore if the item was custom-crafted via our system
-        if (item.hasTag() && item.getTag().contains("Quality")) {
+        // 1. REAL-TIME DURABILITY & UNBREAKING MATH
+        if (item.isDamageableItem()) {
+            int maxDurability = item.getMaxDamage();
+            int currentDurability = maxDurability - item.getDamageValue();
+            int unbreakingLevel = item.getEnchantmentLevel(Enchantments.UNBREAKING);
 
-            if (item.isDamageableItem()) {
-                event.getToolTip().add(Component.literal("Durability: " + item.getMaxDamage()).withStyle(ChatFormatting.GRAY));
+            StringBuilder durabilityBuilder = new StringBuilder();
+            durabilityBuilder.append("Durability: ")
+                    .append(currentDurability)
+                    .append(" / ")
+                    .append(maxDurability);
+
+            // Calculate Effective Durability if item has Unbreaking
+            if (unbreakingLevel > 0) {
+                int effectiveCurrent;
+                int effectiveMax;
+
+                if (item.getItem() instanceof ArmorItem) {
+                    // Armor Unbreaking math: 60% + (40% / (lvl + 1)) chance to take damage
+                    float armorMultiplier = 1.0f / (0.6f + (0.4f / (unbreakingLevel + 1)));
+                    effectiveCurrent = Math.round(currentDurability * armorMultiplier);
+                    effectiveMax = Math.round(maxDurability * armorMultiplier);
+                } else {
+                    // Tool/Weapon Unbreaking math: (lvl + 1) multiplier
+                    effectiveCurrent = currentDurability * (unbreakingLevel + 1);
+                    effectiveMax = maxDurability * (unbreakingLevel + 1);
+                }
+
+                durabilityBuilder.append(" (\u00a7b~")
+                        .append(effectiveCurrent)
+                        .append(" Effective\u00a7r)");
             }
+
+            event.getToolTip().add(Component.literal(durabilityBuilder.toString()).withStyle(ChatFormatting.GRAY));
+        }
+
+        // 2. STAT SCANNING & COMBAT CALCULATIONS
+        if (item.hasTag() && item.getTag().contains("Quality")) {
 
             double damage = 0;
             double speed = 0;
             double armor = 0;
             double toughness = 0;
+            double attributeMining = 0;
 
-            // Dynamically scan the item's live stats
+            double bonusDamage = 0;
+            if (player != null) {
+                int combatLevel = SkillUtil.getSkillLevel(
+                        player,
+                        Stats.CUSTOM.get(Stats.MOB_KILLS),
+                        x -> (int) (25 * Math.pow(1.20, x - 1))
+                );
+                bonusDamage = combatLevel * 1.5F;
+            }
+
+            // Dynamically scan attribute modifiers on the item
             for (EquipmentSlot slot : EquipmentSlot.values()) {
                 Multimap<Attribute, AttributeModifier> modifiers = item.getAttributeModifiers(slot);
                 for (Map.Entry<Attribute, AttributeModifier> entry : modifiers.entries()) {
                     ResourceLocation attrId = ForgeRegistries.ATTRIBUTES.getKey(entry.getKey());
                     if (attrId != null) {
                         String path = attrId.toString();
-                        if (path.equals("minecraft:generic.attack_damage")) damage += entry.getValue().getAmount();
+                        if (path.equals("minecraft:generic.attack_damage")) damage += entry.getValue().getAmount() + bonusDamage;
                         else if (path.equals("minecraft:generic.attack_speed")) speed += entry.getValue().getAmount();
                         else if (path.equals("minecraft:generic.armor")) armor += entry.getValue().getAmount();
                         else if (path.equals("minecraft:generic.armor_toughness")) toughness += entry.getValue().getAmount();
+                        else if (path.equals("minecraft:generic.mining_speed")) attributeMining += entry.getValue().getAmount();
                     }
                 }
             }
 
-            // Append them directly underneath existing lore!
+            // 3. MINING SPEED CALCULATION (Base Tier + Attributes)
+            Item itemType = item.getItem();
+            if (itemType instanceof DiggerItem digger) {
+                float baseMiningSpeed = digger.getTier().getSpeed();
+
+                // Multiply the total speed by the Utility multiplier we just created
+                double totalMiningSpeed = (baseMiningSpeed + attributeMining) * getUtilityMultiplier(item);
+
+                event.getToolTip().add(Component.literal("Mining Speed: " + formatStat(totalMiningSpeed)).withStyle(ChatFormatting.DARK_GREEN));
+            }
+
+            // 4. DISPLAY COMBAT STATS
             if (damage > 0) {
-                event.getToolTip().add(Component.literal("Attack Damage: " + formatStat(damage + 1.0)).withStyle(ChatFormatting.RED));
+                event.getToolTip().add(Component.literal("Attack Damage: " + formatStat(damage + 1.0)).withStyle(ChatFormatting.DARK_RED));
             }
             if (speed != 0) {
-                event.getToolTip().add(Component.literal("Attack Speed: " + formatStat(4.0 + speed)).withStyle(ChatFormatting.YELLOW));
+                event.getToolTip().add(Component.literal("Attack Speed: " + formatStat(4.0 + speed)).withStyle(ChatFormatting.GOLD));
             }
             if (armor > 0) {
-                event.getToolTip().add(Component.literal("Armor: " + formatStat(armor)).withStyle(ChatFormatting.BLUE));
+                event.getToolTip().add(Component.literal("Armor: " + formatStat(armor)).withStyle(ChatFormatting.DARK_AQUA));
             }
             if (toughness > 0) {
-                event.getToolTip().add(Component.literal("Armor Toughness: " + formatStat(toughness)).withStyle(ChatFormatting.BLUE));
+                event.getToolTip().add(Component.literal("Armor Toughness: " + formatStat(toughness)).withStyle(ChatFormatting.DARK_AQUA));
             }
         }
     }

@@ -13,4 +13,13 @@ public class ModPickaxeItem extends PickaxeItem {
     public boolean isFoil(ItemStack pStack) {
         return true;
     }
+
+    @Override
+    public int getMaxDamage(ItemStack stack) {
+        // Get the base durability from your ModToolTiers (e.g., 30000 for Superalloy)
+        int baseDurability = super.getMaxDamage(stack);
+
+        // Multiply it by our Utility scale (+25%, +15%, etc.)
+        return (int) (baseDurability * Roma.menu.skillmenu.StatTrackEvents.getUtilityMultiplier(stack));
+    }
 }

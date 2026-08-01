@@ -30,7 +30,7 @@ public class ModToolTiers {
             7,4000,11f,9,2,ModTags.Blocks.NEEDSHSTEELTOOL,() -> Ingredient.of(Moditems.HSTEELINGOT.get()));
 
     public static final Tier SUPERALLOY = new ForgeTier(
-            7,30000,14f,12,2,ModTags.Blocks.NEEDSSUPERALLOYTOOL,() -> Ingredient.of(Moditems.COPPERINGOT.get()));
+            7,30000,14f,12,2,ModTags.Blocks.NEEDSSUPERALLOYTOOL,() -> Ingredient.of(Moditems.SUPERALLOYINGOT.get()));
 
 
     public static final Tier DENSESTONE = new ForgeTier(
